@@ -1,3 +1,12 @@
 .desc {
     color: blueviolet;
 }
+
+body {
+    background-color: darkslateblue;
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+}
