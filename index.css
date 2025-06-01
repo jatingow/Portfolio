@@ -3,7 +3,11 @@
 }
 
 body {
+<<<<<<< Updated upstream
     background-color: purple;
+=======
+    background-color: violet;
+>>>>>>> Stashed changes
     font-size: 3rem;
     display: flex;
     align-items: center;
