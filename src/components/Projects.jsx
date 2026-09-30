@@ -1,41 +1,104 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projects } from "../data/data";
 import styles from "./Projects.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Projects() {
   const [activeIdx, setActiveIdx] = useState(0);
   const activeProject = projects[activeIdx];
+  const sectionRef = useRef(null);
   const cardRef = useRef(null);
+  const parallaxImgRef = useRef(null);
 
-  // Subtle interactive 3D card tilt effect on mouse move
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -4;
-    const rotateY = ((x - centerX) / centerX) * 4;
+  // Smooth mouse tilt via RAF with lerp
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
 
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  };
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let currentRotX = 0;
+    let currentRotY = 0;
+    let rafId = null;
 
-  const handleMouseLeave = () => {
-    if (!cardRef.current) return;
-    cardRef.current.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
-  };
+    const handleMouseMove = (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      targetRotX = ((y - centerY) / centerY) * -5;
+      targetRotY = ((x - centerX) / centerX) * 5;
+    };
+
+    const handleMouseLeave = () => {
+      targetRotX = 0;
+      targetRotY = 0;
+    };
+
+    const render = () => {
+      currentRotX += (targetRotX - currentRotX) * 0.1;
+      currentRotY += (targetRotY - currentRotY) * 0.1;
+
+      if (cardRef.current) {
+        cardRef.current.style.transform = `perspective(1000px) rotateX(${currentRotX.toFixed(2)}deg) rotateY(${currentRotY.toFixed(2)}deg)`;
+      }
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    card.addEventListener("mousemove", handleMouseMove);
+    card.addEventListener("mouseleave", handleMouseLeave);
+    rafId = requestAnimationFrame(render);
+
+    return () => {
+      card.removeEventListener("mousemove", handleMouseMove);
+      card.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [activeIdx]);
+
+  // GSAP ScrollTrigger parallax on project media
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      if (parallaxImgRef.current) {
+        gsap.fromTo(
+          parallaxImgRef.current,
+          { yPercent: -6, scale: 1.08 },
+          {
+            yPercent: 6,
+            scale: 1.02,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              end: "bottom 20%",
+              scrub: 1,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeIdx]);
 
   return (
-    <section className={styles.section} id="projects">
+    <section ref={sectionRef} className={styles.section} id="projects">
       <div className="container">
         {/* Section Header Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="section-header-eyebrow"
         >
           <div className="section-tag">
@@ -53,7 +116,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="section-main-heading">CRAFTED WITH PRECISION</h2>
             <p className="section-subtext">
@@ -66,7 +129,7 @@ export default function Projects() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className={styles.tabButtons}
           >
             {projects.map((proj, i) => (
@@ -89,17 +152,22 @@ export default function Projects() {
             <motion.div
               key={activeProject.id}
               ref={cardRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              initial={{ opacity: 0, y: 24, scale: 0.985 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.98 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, y: -20, scale: 0.985 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className={styles.projectCard}
             >
-              {/* Media Preview Column */}
+              {/* Media Preview Column with View Cursor */}
               <div className={styles.mediaColumn}>
-                <div className={styles.mockupFrame}>
+                <a
+                  href={activeProject.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mockupFrame}
+                  data-cursor-view="true"
+                  aria-label={`Open live project for ${activeProject.title}`}
+                >
                   <div className={styles.frameHeader}>
                     <div className={styles.windowDots}>
                       <span className={`${styles.dot} ${styles.dotRed}`} />
@@ -113,6 +181,7 @@ export default function Projects() {
 
                   <div className={styles.imageContainer}>
                     <img
+                      ref={parallaxImgRef}
                       src={activeProject.image}
                       alt={`${activeProject.title} project preview`}
                       className={styles.mockupImage}
@@ -120,7 +189,7 @@ export default function Projects() {
                     />
                     <div className={styles.imageOverlayGradient} />
                   </div>
-                </div>
+                </a>
               </div>
 
               {/* Information & Action Column */}
@@ -159,7 +228,7 @@ export default function Projects() {
                 {/* Action Buttons */}
                 <div className={styles.actionsRow}>
                   <motion.a
-                    whileHover={{ scale: 1.04 }}
+                    whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     href={activeProject.link}
                     target="_blank"
@@ -171,7 +240,7 @@ export default function Projects() {
                   </motion.a>
 
                   <motion.a
-                    whileHover={{ scale: 1.04 }}
+                    whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     href={activeProject.link}
                     target="_blank"
@@ -195,12 +264,17 @@ export default function Projects() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              transition={{ duration: 0.4, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ x: 6 }}
               className={`${styles.miniRow} ${activeIdx === idx ? styles.miniRowActive : ""}`}
               onClick={() => setActiveIdx(idx)}
               role="button"
               tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  setActiveIdx(idx);
+                }
+              }}
             >
               <div className={styles.miniLeft}>
                 <span className={styles.miniId}>0{idx + 1}</span>

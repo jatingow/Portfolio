@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import "./styles/globals.css";
 
-import ParticleBackground from "./components/ParticleBackground";
+import { SmoothScrollProvider } from "./context/SmoothScrollContext";
+import WebGLBackground    from "./components/WebGLBackground";
 import CustomCursor       from "./components/CustomCursor";
 import AwwwardsBadge      from "./components/AwwwardsBadge";
 import Sidebar            from "./components/Sidebar";
@@ -15,8 +16,10 @@ import Experience         from "./components/Experience";
 import Certifications     from "./components/Certifications";
 import Contact            from "./components/Contact";
 import Footer             from "./components/Footer";
+import LoadingScreen      from "./components/LoadingScreen";
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [theme, setTheme] = useState("dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -29,7 +32,7 @@ export default function App() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   return (
-    <>
+    <SmoothScrollProvider isLoading={isLoading}>
       <Helmet>
         <title>Jatin Kumar — Full-Stack Developer</title>
         <meta
@@ -38,8 +41,11 @@ export default function App() {
         />
       </Helmet>
 
-      {/* Interactive subtle particle canvas reacting to cursor */}
-      <ParticleBackground />
+      {/* Initial load screen with CometDial */}
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+
+      {/* Premium WebGL Ambient Wave Mesh (Hardware-accelerated Three.js) */}
+      <WebGLBackground />
 
       {/* Ambient background grid mesh */}
       <div className="bg-grid-overlay" aria-hidden="true" />
@@ -75,6 +81,6 @@ export default function App() {
       </main>
 
       <Footer />
-    </>
+    </SmoothScrollProvider>
   );
 }

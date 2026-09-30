@@ -1,6 +1,11 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { personalInfo } from "../data/data";
 import styles from "./About.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SPECIALIZATIONS = [
   { icon: "⚡", label: "Core Web Vitals & Speed" },
@@ -10,8 +15,38 @@ const SPECIALIZATIONS = [
 ];
 
 export default function About() {
+  const sectionRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktop = window.innerWidth >= 1024;
+    if (prefersReducedMotion || !isDesktop || !sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      if (rightColRef.current) {
+        gsap.fromTo(
+          rightColRef.current,
+          { y: 35 },
+          {
+            y: -35,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              end: "bottom 25%",
+              scrub: 1.2,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className={styles.section} id="about">
+    <section ref={sectionRef} className={styles.section} id="about">
       {/* Anchor for backward compatibility with intro-overview links */}
       <span id="intro-overview" className={styles.anchorOffset} aria-hidden="true" />
 
@@ -21,7 +56,7 @@ export default function About() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="section-header-eyebrow"
         >
           <div className="section-tag">
@@ -35,7 +70,7 @@ export default function About() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className={styles.statementWrapper}
         >
           <p className={styles.statementSub}>{personalInfo.bio}</p>
@@ -46,10 +81,10 @@ export default function About() {
           {SPECIALIZATIONS.map((spec, i) => (
             <motion.div
               key={spec.label}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.92, y: 18 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: 0.12 + i * 0.07 }}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ y: -3, scale: 1.03 }}
               className={styles.specPill}
             >
@@ -64,15 +99,13 @@ export default function About() {
           {personalInfo.stats.map((stat, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{
                 duration: 0.5,
-                delay: 0.15 + idx * 0.08,
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
+                delay: 0.12 + idx * 0.07,
+                ease: [0.16, 1, 0.3, 1],
               }}
               className={styles.statCard}
             >
@@ -90,7 +123,7 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className={styles.leftCol}
             >
               <div className={styles.bioTextGroup}>
@@ -102,15 +135,15 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Right Column: Architectural Highlight Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className={styles.rightCol}
-            >
-              <div className={styles.card}>
+            {/* Right Column: Architectural Highlight Cards with Scroll Parallax */}
+            <div ref={rightColRef} className={styles.rightCol}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className={styles.card}
+              >
                 <div className={styles.cardHeader}>
                   <span className={styles.cardIndex}>01</span>
                   <span className={styles.cardTag}>PRIMARY FOCUS</span>
@@ -119,9 +152,15 @@ export default function About() {
                 <p className={styles.cardDesc}>
                   Specializing in React, Next.js, and TypeScript on the frontend, with robust APIs and relational/NoSQL databases on the backend.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className={styles.card}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className={styles.card}
+              >
                 <div className={styles.cardHeader}>
                   <span className={styles.cardIndex}>02</span>
                   <span className={styles.cardTag}>CORE PRINCIPLE</span>
@@ -130,9 +169,15 @@ export default function About() {
                 <p className={styles.cardDesc}>
                   Obsessed with sub-second page loads, minimal layout shifts, optimal asset compression, and clean modular code architectures.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className={styles.card}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                className={styles.card}
+              >
                 <div className={styles.cardHeader}>
                   <span className={styles.cardIndex}>03</span>
                   <span className={styles.cardTag}>CURRENT STATUS</span>
@@ -141,8 +186,8 @@ export default function About() {
                 <p className={styles.cardDesc}>
                   Pursuing B.E. in Computer Science in India, bridging theoretical DSA/OS fundamentals with hands-on open source contributions.
                 </p>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>

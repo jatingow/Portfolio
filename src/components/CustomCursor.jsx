@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 export default function CustomCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
+  const labelRef = useRef(null);
   const mousePos = useRef({ x: -100, y: -100 });
   const ringPos = useRef({ x: -100, y: -100 });
   const rafId = useRef(null);
@@ -46,7 +47,18 @@ export default function CustomCursor() {
     };
 
     const handleMouseOver = (e) => {
-      const target = e.target.closest("a, button, [role='button'], input, textarea, select, [data-hover='true']");
+      const viewTarget = e.target.closest("[data-cursor-view]");
+      if (viewTarget) {
+        document.body.classList.add("cursor-view");
+        document.body.classList.remove("cursor-hover");
+        return;
+      } else {
+        document.body.classList.remove("cursor-view");
+      }
+
+      const target = e.target.closest(
+        "a, button, [role='button'], input, textarea, select, [data-hover='true']"
+      );
       if (target) {
         document.body.classList.add("cursor-hover");
       } else {
@@ -82,6 +94,7 @@ export default function CustomCursor() {
       window.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("mouseover", handleMouseOver);
       document.body.classList.remove("cursor-hover");
+      document.body.classList.remove("cursor-view");
       document.body.classList.remove("cursor-clicking");
       document.body.classList.remove("custom-cursor-active");
       if (rafId.current) cancelAnimationFrame(rafId.current);
@@ -90,16 +103,12 @@ export default function CustomCursor() {
 
   return (
     <>
-      <div
-        ref={dotRef}
-        className="custom-cursor-dot"
-        aria-hidden="true"
-      />
-      <div
-        ref={ringRef}
-        className="custom-cursor-ring"
-        aria-hidden="true"
-      />
+      <div ref={dotRef} className="custom-cursor-dot" aria-hidden="true" />
+      <div ref={ringRef} className="custom-cursor-ring" aria-hidden="true">
+        <span ref={labelRef} className="custom-cursor-label">
+          VIEW
+        </span>
+      </div>
     </>
   );
 }

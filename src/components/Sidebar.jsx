@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSmoothScroll } from "../context/SmoothScrollContext";
 import styles from "./Sidebar.module.css";
 
 const NAV_LINKS = [
@@ -9,6 +10,7 @@ const NAV_LINKS = [
 ];
 
 export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
+  const { scrollTo } = useSmoothScroll();
   const [isHovered, setIsHovered] = useState(false);
   const sidebarRef = useRef(null);
 
@@ -26,9 +28,11 @@ export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, isHovered, setIsOpen]);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
     setIsOpen(false);
     setIsHovered(false);
+    scrollTo(href, { offset: 0 });
   };
 
   return (
@@ -91,7 +95,7 @@ export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
                   <a
                     href={link.href}
                     className={styles.navLink}
-                    onClick={handleLinkClick}
+                    onClick={(e) => handleLinkClick(e, link.href)}
                   >
                     <span className={styles.navNum}>{link.num}</span>
                     <span className={styles.navLabel}>{link.label}</span>
@@ -110,7 +114,7 @@ export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
             <a
               href="#contact"
               className={styles.contactBtn}
-              onClick={handleLinkClick}
+              onClick={(e) => handleLinkClick(e, "#contact")}
             >
               <span>CONTACT</span>
               <span className={styles.contactArrow} aria-hidden="true">→</span>

@@ -64,10 +64,30 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -278,6 +298,45 @@ button {
   border-color: rgba(0, 0, 0, 0.85);
   background: rgba(0, 0, 0, 0.05);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Hovering over Project Showcase / Media Preview */
+.custom-cursor-label {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: #09090b;
+}
+
+[data-theme="light"] .custom-cursor-label {
+  color: #ffffff;
+}
+
+.cursor-view .custom-cursor-dot {
+  opacity: 0 !important;
+}
+
+.cursor-view .custom-cursor-ring {
+  width: 74px;
+  height: 74px;
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cursor-view .custom-cursor-label {
+  display: block;
+}
+
+[data-theme="light"] .cursor-view .custom-cursor-ring {
+  background: #09090b;
+  border-color: #09090b;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
 }
 
 /* Tactile Click feedback */
