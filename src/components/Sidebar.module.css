@@ -1,0 +1,371 @@
+/* ── Sidebar Navigation Overlay ── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 95;
+  animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* User requirement: NEVER show dark backdrop on desktop */
+@media (min-width: 861px) {
+  .backdrop {
+    display: none !important;
+  }
+}
+
+/* Main Fixed Container attached to right edge */
+.sidebarWrapper {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(calc(100% - 32px));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  display: flex;
+  align-items: stretch;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* Open states: hover (desktop only), programmatic open class, and keyboard focus */
+@media (hover: hover) and (pointer: fine) {
+  .sidebarWrapper:hover,
+  .sidebarWrapper:focus-within {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.sidebarWrapper.open {
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ── Subtle Right-Edge Trigger Handle ── */
+.triggerHandle {
+  position: relative;
+  width: 32px;
+  min-height: 150px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  color: var(--tx-muted);
+  box-shadow: -6px 0 25px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.25s, border-color 0.25s, color 0.25s;
+  padding: 0;
+  outline: none;
+  align-self: center;
+}
+
+/* Invisible extended hover area so approaching the right edge triggers seamlessly */
+.triggerHandle::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  bottom: -70px;
+  left: -24px;
+  right: 0;
+  pointer-events: auto;
+}
+
+.triggerHandle:hover,
+.sidebarWrapper.open .triggerHandle {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+}
+
+.triggerBar {
+  width: 3px;
+  height: 34px;
+  border-radius: 999px;
+  background-color: var(--tx-dim);
+  transition: background-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+
+.triggerHandle:hover .triggerBar,
+.sidebarWrapper.open .triggerBar {
+  background-color: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.triggerLabel {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--tx-muted);
+  transition: color 0.25s;
+}
+
+.triggerHandle:hover .triggerLabel,
+.sidebarWrapper.open .triggerLabel {
+  color: var(--tx);
+}
+
+/* ── Sidebar Panel ── */
+.panel {
+  width: clamp(270px, 22vw, 340px);
+  background: var(--bg-card);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: -15px 0 45px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Top Panel Header */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.panelTag {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tx-dim);
+  font-weight: 600;
+}
+
+.closeBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--tx-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: var(--tx);
+}
+
+/* Navigation List */
+.nav {
+  width: 100%;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--tx-muted);
+}
+
+.navNum {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  opacity: 0.75;
+  width: 22px;
+}
+
+.navLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx);
+  flex: 1;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
+}
+
+.navArrow {
+  font-size: 0.95rem;
+  color: var(--accent-cyan);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.22s, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLink:hover,
+.navLink:focus {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--tx);
+}
+
+[data-theme="light"] .navLink:hover,
+[data-theme="light"] .navLink:focus {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.navLink:hover .navLabel,
+.navLink:focus .navLabel {
+  transform: translateX(4px);
+  color: #ffffff;
+}
+
+[data-theme="light"] .navLink:hover .navLabel,
+[data-theme="light"] .navLink:focus .navLabel {
+  color: #000000;
+}
+
+.navLink:hover .navArrow,
+.navLink:focus .navArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Subtle separator */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.75rem 0 1.5rem 0;
+}
+
+/* Footer Section */
+.panelFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.contactBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-hover);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] .contactBtn {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.contactBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-cyan);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .contactBtn:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: #000000;
+}
+
+.contactArrow {
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.contactBtn:hover .contactArrow {
+  transform: translateX(3px);
+}
+
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.themeToggleBtn:hover {
+  color: var(--tx);
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"] .themeToggleBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Mobile Responsiveness ── */
+@media (max-width: 860px) {
+  .closeBtn {
+    display: block;
+  }
+
+  .panel {
+    width: min(85vw, 340px);
+    padding: 1.75rem 1.5rem;
+  }
+
+  .triggerHandle {
+    width: 28px;
+    min-height: 120px;
+  }
+
+  .sidebarWrapper {
+    transform: translateY(-50%) translateX(calc(100% - 28px));
+  }
+}

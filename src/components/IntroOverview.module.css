@@ -1,0 +1,143 @@
+.section {
+  padding: clamp(5rem, 10vh, 7.5rem) 0;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .section {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.statementWrapper {
+  max-width: 1050px;
+  margin-bottom: 3rem;
+}
+
+.statementText {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--tx);
+  margin-bottom: 1.5rem;
+}
+
+.highlightText {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-color: rgba(56, 189, 248, 0.5);
+  text-underline-offset: 6px;
+}
+
+[data-theme="light"] .highlightText {
+  color: #000000;
+  text-decoration-color: rgba(2, 132, 199, 0.5);
+}
+
+.statementSub {
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--tx-muted);
+  max-width: 680px;
+}
+
+/* Specialization Pills */
+.pillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4rem;
+}
+
+.specPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--tx);
+  cursor: default;
+  transition: all 0.25s ease;
+}
+
+[data-theme="light"] .specPill {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.specPill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.specIcon {
+  font-size: 0.95rem;
+  color: var(--accent-cyan);
+}
+
+.specLabel {
+  font-weight: 500;
+}
+
+/* Stats Grid with Spring Pop */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] .statsGrid {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+[data-theme="light"] .statCard {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.statCard:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.statNumber {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.2rem, 3.8vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--tx);
+  line-height: 1;
+}
+
+.statCaption {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tx-dim);
+}

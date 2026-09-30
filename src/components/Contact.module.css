@@ -1,0 +1,231 @@
+.section {
+  padding: clamp(5rem, 12vh, 9rem) 0;
+  position: relative;
+  border-top: 1px solid var(--border);
+}
+
+.contactWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.headerBlock {
+  max-width: 900px;
+}
+
+.bigTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  color: var(--tx);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.accentText {
+  color: var(--accent-cyan);
+}
+
+.subtext {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.65;
+  color: var(--tx-muted);
+  max-width: 600px;
+}
+
+/* Email CTA Card */
+.emailCtaCard {
+  background: var(--bg-card);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 4vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.3s ease;
+}
+
+.emailCtaCard:hover {
+  border-color: var(--border-hover);
+}
+
+@media (min-width: 768px) {
+  .emailCtaCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.emailInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.emailLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--tx-dim);
+  text-transform: uppercase;
+}
+
+.emailAddress {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  color: var(--tx);
+  letter-spacing: -0.02em;
+}
+
+.emailAddress:hover {
+  color: var(--accent-cyan);
+}
+
+.ctaButtonRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #ffffff;
+  color: #000000;
+  padding: 14px 26px;
+  border-radius: var(--radius-pill);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="light"] .copyBtn {
+  background: #000000;
+  color: #ffffff;
+}
+
+.copyBtn:hover {
+  background: var(--accent-cyan);
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.45);
+}
+
+.sendEmailBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--tx);
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+}
+
+.sendEmailBtn:hover {
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.sendArrow {
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.sendEmailBtn:hover .sendArrow {
+  transform: translate(2px, -2px);
+}
+
+/* Social Grid */
+.socialsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .socialsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .socialsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.socialCard {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  transition: all 0.25s ease;
+}
+
+.socialCard:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-cyan);
+  transform: translateY(-3px);
+}
+
+.socialTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.socialIndex {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--tx-dim);
+}
+
+.socialArrow {
+  font-size: 1.1rem;
+  color: var(--accent-cyan);
+  transition: transform 0.2s ease;
+}
+
+.socialCard:hover .socialArrow {
+  transform: translate(3px, -3px);
+}
+
+.socialLabel {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--tx);
+  margin-bottom: 0.25rem;
+}
+
+.socialHandle {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--tx-dim);
+}
