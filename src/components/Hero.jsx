@@ -189,20 +189,6 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
                 </svg>
               )}
             </button>
-
-            <button
-              className={styles.menuTriggerBtn}
-              onClick={onToggleSidebar}
-              aria-label="Open navigation menu"
-              title="Open navigation"
-              type="button"
-            >
-              <span className={styles.menuBtnText}>MENU</span>
-              <span className={styles.menuBars} aria-hidden="true">
-                <span className={styles.menuBar} />
-                <span className={styles.menuBar} />
-              </span>
-            </button>
           </div>
         </motion.div>
 

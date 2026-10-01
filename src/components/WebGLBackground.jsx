@@ -147,15 +147,16 @@ export default function WebGLBackground() {
 
     // Animation Loop
     let animationFrameId;
-    let clock = new THREE.Clock();
+    const timer = new THREE.Timer();
 
-    const animate = () => {
+    const animate = (timestamp) => {
       if (!isVisible) {
         animationFrameId = requestAnimationFrame(animate);
         return;
       }
 
-      const elapsed = clock.getElapsedTime();
+      timer.update(timestamp);
+      const elapsed = timer.getElapsed();
       const speed = prefersReducedMotion ? 0.05 : 0.65;
 
       // Smooth mouse lerp
@@ -203,6 +204,7 @@ export default function WebGLBackground() {
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("visibilitychange", handleVisibility);
 
+      timer.dispose();
       geometry.dispose();
       material.dispose();
       texture.dispose();
