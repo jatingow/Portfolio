@@ -19,7 +19,7 @@ export default function Contact() {
         <div className="section-header-eyebrow">
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>06 / GET IN TOUCH</span>
+            <span>GET IN TOUCH</span>
           </div>
         </div>
 

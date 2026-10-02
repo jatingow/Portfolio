@@ -37,53 +37,6 @@
   z-index: 1;
 }
 
-/* ── Midground Parallax Elements ── */
-.midgroundLayer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  overflow: hidden;
-}
-
-.coordBadge {
-  position: absolute;
-  top: 42%;
-  right: 6%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  backdrop-filter: blur(8px);
-}
-
-[data-theme="light"] .coordBadge {
-  color: rgba(0, 0, 0, 0.5);
-  background: rgba(0, 0, 0, 0.03);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-.coordDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
-}
-
-@media (max-width: 768px) {
-  .coordBadge {
-    display: none;
-  }
-}
-
 /* ── Top Canvas Header Row (Ewan Kerboas Style) ── */
 .heroTopRow {
   display: flex;

@@ -6,8 +6,10 @@
 
 .counterText {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
   color: var(--tx-dim);
+  font-weight: 500;
 }
 
 .headerRow {

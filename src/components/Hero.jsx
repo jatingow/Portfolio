@@ -14,7 +14,6 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
   const titleWrapperRef = useRef(null);
   const bottomRowRef = useRef(null);
   const spotlightRef = useRef(null);
-  const midgroundRef = useRef(null);
 
   // Smooth mouse parallax via RAF + lerp (zero React re-renders)
   useEffect(() => {
@@ -45,12 +44,7 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
         titleWrapperRef.current.style.transform = `translate3d(${(currentX * 14).toFixed(2)}px, ${(currentY * 10).toFixed(2)}px, 0)`;
       }
 
-      // Layer 2: Midground coordinates & badge parallax
-      if (midgroundRef.current) {
-        midgroundRef.current.style.transform = `translate3d(${(-currentX * 22).toFixed(2)}px, ${(-currentY * 16).toFixed(2)}px, 0)`;
-      }
-
-      // Layer 3: Ambient spotlight tracking
+      // Layer 2: Ambient spotlight tracking
       if (spotlightRef.current) {
         spotlightRef.current.style.transform = `translate(calc(-50% + ${(currentX * 45).toFixed(2)}px), calc(-50% + ${(currentY * 35).toFixed(2)}px))`;
       }
@@ -117,14 +111,6 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
     <section ref={heroRef} className={styles.heroSection} id="hero">
       {/* Background subtle radial spotlight with mouse drift */}
       <div ref={spotlightRef} className={styles.ambientSpotlight} aria-hidden="true" />
-
-      {/* Midground Parallax Layer */}
-      <div ref={midgroundRef} className={styles.midgroundLayer} aria-hidden="true">
-        <div className={styles.coordBadge}>
-          <span className={styles.coordDot} />
-          <span>28.6139° N, 77.2090° E</span>
-        </div>
-      </div>
 
       <div className={styles.heroContainer}>
         {/* Top Canvas Bar: Jatin Kumar (Left) & Controls (Right) */}

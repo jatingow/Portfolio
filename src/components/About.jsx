@@ -7,13 +7,6 @@ import styles from "./About.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SPECIALIZATIONS = [
-  { icon: "⚡", label: "Core Web Vitals & Speed" },
-  { icon: "⚛", label: "React & Next.js Architecture" },
-  { icon: "✦", label: "Visceral Micro-Animations" },
-  { icon: "⚙", label: "Scalable Full-Stack Systems" },
-];
-
 export default function About() {
   const sectionRef = useRef(null);
   const rightColRef = useRef(null);
@@ -75,45 +68,6 @@ export default function About() {
         >
           <p className={styles.statementSub}>{personalInfo.bio}</p>
         </motion.div>
-
-        {/* Specialization Interactive Pills */}
-        <div className={styles.pillsRow}>
-          {SPECIALIZATIONS.map((spec, i) => (
-            <motion.div
-              key={spec.label}
-              initial={{ opacity: 0, scale: 0.92, y: 18 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45, delay: 0.1 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -3, scale: 1.03 }}
-              className={styles.specPill}
-            >
-              <span className={styles.specIcon}>{spec.icon}</span>
-              <span className={styles.specLabel}>{spec.label}</span>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Key Stats Strip */}
-        <div className={styles.statsGrid}>
-          {personalInfo.stats.map((stat, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                duration: 0.5,
-                delay: 0.12 + idx * 0.07,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className={styles.statCard}
-            >
-              <span className={styles.statNumber}>{stat.value}</span>
-              <span className={styles.statCaption}>{stat.label}</span>
-            </motion.div>
-          ))}
-        </div>
 
         {/* ── DETAILED PHILOSOPHY & ARCHITECTURAL HIGHLIGHTS ── */}
         <div className={styles.deepDiveWrapper}>

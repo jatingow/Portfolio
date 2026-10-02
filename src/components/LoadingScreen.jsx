@@ -5,7 +5,7 @@ import styles from "./LoadingScreen.module.css";
 export default function LoadingScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [statusText, setStatusText] = useState("INITIALIZING SYSTEM");
+  const [statusText, setStatusText] = useState("");
 
   useEffect(() => {
     // Lock body scroll while loader is active
@@ -28,15 +28,15 @@ export default function LoadingScreen({ onComplete }) {
       current = Math.min(100, current + increment);
       setProgress(current);
 
-      if (current < 35) {
-        setStatusText("INITIALIZING CREATIVE ENGINE");
-      } else if (current < 75) {
-        setStatusText("LOADING ASSETS & ARCHITECTURE");
-      } else if (current < 100) {
-        setStatusText("FINALIZING INTERFACE");
-      } else {
-        setStatusText("EXPERIENCE READY");
-      }
+      // if (current < 35) {
+      //   setStatusText("INITIALIZING CREATIVE ENGINE");
+      // } else if (current < 75) {
+      //   setStatusText("LOADING ASSETS & ARCHITECTURE");
+      // } else if (current < 100) {
+      //   setStatusText("FINALIZING INTERFACE");
+      // } else {
+      //   setStatusText("EXPERIENCE READY");
+      // }
 
       if (current >= 100) {
         clearInterval(interval);
@@ -61,19 +61,19 @@ export default function LoadingScreen({ onComplete }) {
   return (
     <div
       className={`${styles.overlay} ${isExiting ? styles.exiting : ""}`}
-      aria-label="Loading portfolio"
+      // aria-label="Loading portfo"
       role="status"
     >
       {/* Background ambient glow */}
       <div className={styles.ambientGlow} aria-hidden="true" />
 
       <div className={styles.content}>
-        {/* Minimalist Top Brand Header */}
+        {/* Minimalist Top Brand Header
         <div className={styles.topBrand}>
           <span className={styles.brandName}>JATIN KUMAR</span>
           <span className={styles.brandDivider}>/</span>
           <span className={styles.brandSub}>PORTFOLIO</span>
-        </div>
+        </div> */}
 
         {/* The React Bits CometDial */}
         <div className={styles.dialContainer}>
@@ -83,7 +83,7 @@ export default function LoadingScreen({ onComplete }) {
             max={100}
             step={1}
             unit="%"
-            label="Loading Progress"
+            // label="Loading Progress"
             accent="#38bdf8"
             ink="#ffffff"
             size={240}

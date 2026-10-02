@@ -9,8 +9,8 @@ export default function Certifications() {
         {/* Section Header */}
         <div className="section-header-eyebrow">
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
-            <span>05 / CREDENTIALS & CERTS</span>
+            {/* <span className="section-asterisk">✱</span> */}
+            <span>CREDENTIALS</span>
           </div>
         </div>
 
