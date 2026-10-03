@@ -15,7 +15,7 @@ export default function Certifications() {
         </div>
 
         <div className={styles.headerRow}>
-          <h2 className="section-main-heading">HONORS & CERTIFICATIONS</h2>
+          <h2 className="section-main-heading">CERTIFICATIONS</h2>
           <p className="section-subtext">
             Formal recognition and rigorous training in artificial intelligence, neural networks, and cloud architecture.
           </p>

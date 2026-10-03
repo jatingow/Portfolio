@@ -116,6 +116,13 @@
   border: 1px solid var(--border);
   background: #0d0d12;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  position: relative;
+  outline: none;
+}
+
+.mockupFrame:focus-visible {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px var(--accent-glow), 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 .frameHeader {
@@ -156,6 +163,57 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.frameAddressBar:hover {
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.addressText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.addressExternalIcon {
+  font-size: 0.7rem;
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+.frameSlideCounter {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--tx-dim);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.counterCurrent {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.counterDivider {
+  opacity: 0.4;
+}
+
+.counterTotal {
+  color: var(--tx-muted);
 }
 
 .imageContainer {
@@ -163,25 +221,123 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
+  background: #09090d;
+}
+
+/* Horizontal Slider Track */
+.sliderTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+}
+
+.sliderTrack:active {
+  cursor: grabbing;
+}
+
+.sliderTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  overflow: hidden;
 }
 
 .mockupImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
+  user-select: none;
+  -webkit-user-drag: none;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .projectCard:hover .mockupImage {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .imageOverlayGradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent 40%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 45%);
   pointer-events: none;
 }
+
+/* Interactive Navigation Arrows */
+.sliderNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(14, 14, 20, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  padding: 0;
+}
+
+.sliderNavBtn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 15px var(--accent-glow), 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.sliderNavBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.sliderNavPrev {
+  left: 12px;
+}
+
+.sliderNavNext {
+  right: 12px;
+}
+
+/* Bottom Control Overlay Bar */
+.carouselBottomBar {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 8;
+  pointer-events: none;
+}
+
 
 /* Info Column */
 .infoColumn {
@@ -389,4 +545,35 @@
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   color: var(--tx-muted);
+}
+
+@media (max-width: 768px) {
+  .sliderNavBtn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .sliderNavPrev {
+    left: 8px;
+  }
+  
+  .sliderNavNext {
+    right: 8px;
+  }
+
+  .carouselBottomBar {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+  }
+
+  .captionTag {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    max-width: 55%;
+  }
+
+  .scrollHintBadge {
+    display: none;
+  }
 }

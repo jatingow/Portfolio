@@ -66,7 +66,27 @@ export const projects = [
     type: "Full-Stack Web App",
     year: "2024",
     desc: "An intelligent cinematic recommendation engine marrying Python Flask and modern JavaScript. Users explore films based on nuanced emotional 'vibes', cast, and genre subtleties, powered by Google Gemini AI and live TMDB streaming data.",
-    image: "/projects/watchit.jpg",
+    image: "/projects/watchit-1.png",
+    images: [
+      {
+        src: "/projects/watchit-1.png",
+        title: "Talk Of The Town",
+        tag: "Explore Feed",
+        desc: "Curated trending releases with real-time ratings and quick watchlist access",
+      },
+      {
+        src: "/projects/watchit-2.png",
+        title: "AI Vibe Check",
+        tag: "Gemini AI Discovery",
+        desc: "Natural-language semantic movie match engine powered by Google Gemini AI",
+      },
+      {
+        src: "/projects/watchit-3.png",
+        title: "My Watchlist",
+        tag: "Personal Queue",
+        desc: "Fast client-side watchlist tracking with instant bookmarking and state sync",
+      },
+    ],
     tags: ["Flask", "JavaScript", "Google Gemini AI", "TMDB API", "Modern CSS"],
     link: "https://github.com/jatingow/Movie-Recommender",
     metrics: "Sub-200ms Search · AI Sentiment Analysis · Responsive UI",
@@ -79,6 +99,14 @@ export const projects = [
     year: "2024",
     desc: "A client-side image-to-PDF utility built with Next.js. Engineered with 100% privacy in mind — zero server uploads. Users can drag, drop, reorder, crop, and compile multi-image collections into perfectly formatted A4 PDFs instantly in the browser.",
     image: "/projects/stitch.jpg",
+    images: [
+      {
+        src: "/projects/stitch.jpg",
+        title: "PDF Builder Workspace",
+        tag: "Client-Side Compiler",
+        desc: "100% in-browser image-to-PDF compilation with zero telemetry",
+      },
+    ],
     tags: ["Next.js", "React", "jsPDF", "Canvas API", "Zero-Tracking"],
     link: "https://github.com/jatingow/Stitch",
     metrics: "100% Client-Side · Zero Telemetry · Instant Export",

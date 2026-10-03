@@ -9,10 +9,100 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Projects() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [currentImgIdx, setCurrentImgIdx] = useState(0);
   const activeProject = projects[activeIdx];
   const sectionRef = useRef(null);
   const cardRef = useRef(null);
   const parallaxImgRef = useRef(null);
+  const sliderRef = useRef(null);
+
+  // Mouse drag-to-scroll state
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollStartLeftRef = useRef(0);
+  const dragDistanceRef = useRef(0);
+
+  // Normalize project images list
+  const projectImages =
+    activeProject.images && activeProject.images.length > 0
+      ? activeProject.images
+      : [
+          {
+            src: activeProject.image,
+            title: activeProject.title,
+            tag: activeProject.type,
+            desc: activeProject.subtitle,
+          },
+        ];
+
+  // Reset slider position and index when active project changes
+  useEffect(() => {
+    setCurrentImgIdx(0);
+    if (sliderRef.current) {
+      sliderRef.current.scrollTo({ left: 0, behavior: "instant" });
+    }
+  }, [activeIdx]);
+
+  const scrollToSlide = (idx) => {
+    if (!sliderRef.current) return;
+    const clampedIdx = Math.max(0, Math.min(projectImages.length - 1, idx));
+    const targetLeft = clampedIdx * sliderRef.current.clientWidth;
+    sliderRef.current.scrollTo({
+      left: targetLeft,
+      behavior: "smooth",
+    });
+    setCurrentImgIdx(clampedIdx);
+  };
+
+  const handleSliderScroll = () => {
+    if (!sliderRef.current || isDraggingRef.current) return;
+    const { scrollLeft, clientWidth } = sliderRef.current;
+    if (clientWidth > 0) {
+      const idx = Math.round(scrollLeft / clientWidth);
+      if (idx !== currentImgIdx && idx >= 0 && idx < projectImages.length) {
+        setCurrentImgIdx(idx);
+      }
+    }
+  };
+
+  const handlePrevSlide = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    scrollToSlide(currentImgIdx - 1);
+  };
+
+  const handleNextSlide = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    scrollToSlide(currentImgIdx + 1);
+  };
+
+  const handleMouseDown = (e) => {
+    if (e.button !== 0 || !sliderRef.current) return;
+    isDraggingRef.current = true;
+    dragDistanceRef.current = 0;
+    startXRef.current = e.pageX;
+    scrollStartLeftRef.current = sliderRef.current.scrollLeft;
+    sliderRef.current.style.scrollSnapType = "none";
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !sliderRef.current) return;
+    const walk = e.pageX - startXRef.current;
+    dragDistanceRef.current = Math.abs(walk);
+    sliderRef.current.scrollLeft = scrollStartLeftRef.current - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (!isDraggingRef.current || !sliderRef.current) return;
+    isDraggingRef.current = false;
+    sliderRef.current.style.scrollSnapType = "x mandatory";
+    const { scrollLeft, clientWidth } = sliderRef.current;
+    if (clientWidth > 0) {
+      const idx = Math.round(scrollLeft / clientWidth);
+      scrollToSlide(idx);
+    }
+  };
 
   // Smooth mouse tilt via RAF with lerp
   useEffect(() => {
@@ -26,6 +116,8 @@ export default function Projects() {
     let rafId = null;
 
     const handleMouseMove = (e) => {
+      // Don't tilt violently if dragging image slider
+      if (isDraggingRef.current) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -71,10 +163,10 @@ export default function Projects() {
       if (parallaxImgRef.current) {
         gsap.fromTo(
           parallaxImgRef.current,
-          { yPercent: -6, scale: 1.08 },
+          { yPercent: -4, scale: 1.03 },
           {
-            yPercent: 6,
-            scale: 1.02,
+            yPercent: 4,
+            scale: 1.01,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -158,38 +250,173 @@ export default function Projects() {
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className={styles.projectCard}
             >
-              {/* Media Preview Column with View Cursor */}
+              {/* Media Preview Column with View Cursor and Sideways Scroll Mockup */}
               <div className={styles.mediaColumn}>
-                <a
-                  href={activeProject.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <div
                   className={styles.mockupFrame}
-                  data-cursor-view="true"
-                  aria-label={`Open live project for ${activeProject.title}`}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "ArrowLeft") {
+                      e.preventDefault();
+                      scrollToSlide(currentImgIdx - 1);
+                    } else if (e.key === "ArrowRight") {
+                      e.preventDefault();
+                      scrollToSlide(currentImgIdx + 1);
+                    }
+                  }}
+                  aria-label={`Interactive preview for ${activeProject.title} project. Use arrows or scroll sideways to view screenshots.`}
                 >
+                  {/* Browser Window Chrome Header */}
                   <div className={styles.frameHeader}>
                     <div className={styles.windowDots}>
                       <span className={`${styles.dot} ${styles.dotRed}`} />
                       <span className={`${styles.dot} ${styles.dotYellow}`} />
                       <span className={`${styles.dot} ${styles.dotGreen}`} />
                     </div>
-                    <div className={styles.frameAddressBar}>
-                      https://{activeProject.title.toLowerCase()}.jatin.dev
-                    </div>
+
+                    <a
+                      href={activeProject.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.frameAddressBar}
+                      title={`Visit ${activeProject.title} repository / live preview`}
+                    >
+                      <span className={styles.addressText}>
+                        https://{activeProject.title.toLowerCase()}.jatin.dev
+                      </span>
+                      <span className={styles.addressExternalIcon}>↗</span>
+                    </a>
+
+                    {projectImages.length > 1 && (
+                      <div className={styles.frameSlideCounter} title="Current slide">
+                        <span className={styles.counterCurrent}>0{currentImgIdx + 1}</span>
+                        <span className={styles.counterDivider}>/</span>
+                        <span className={styles.counterTotal}>0{projectImages.length}</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className={styles.imageContainer}>
-                    <img
-                      ref={parallaxImgRef}
-                      src={activeProject.image}
-                      alt={`${activeProject.title} project preview`}
-                      className={styles.mockupImage}
-                      loading="lazy"
-                    />
-                    <div className={styles.imageOverlayGradient} />
+                  {/* Horizontal Scrollable Image Gallery Viewport */}
+                  <div className={styles.imageContainer} ref={parallaxImgRef}>
+                    <div
+                      ref={sliderRef}
+                      className={styles.sliderTrack}
+                      onScroll={handleSliderScroll}
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={handleMouseUpOrLeave}
+                      onMouseLeave={handleMouseUpOrLeave}
+                      data-cursor-view="true"
+                    >
+                      {projectImages.map((imgObj, idx) => (
+                        <div key={idx} className={styles.slide}>
+                          <img
+                            src={imgObj.src}
+                            alt={`${activeProject.title} - ${imgObj.title || `Screenshot ${idx + 1}`}`}
+                            className={styles.mockupImage}
+                            loading={idx === 0 ? "eager" : "lazy"}
+                            draggable="false"
+                          />
+                          <div className={styles.imageOverlayGradient} />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Left & Right Interactive Navigation Controls */}
+                    {projectImages.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          className={`${styles.sliderNavBtn} ${styles.sliderNavPrev}`}
+                          onClick={handlePrevSlide}
+                          disabled={currentImgIdx === 0}
+                          aria-label="Previous screenshot (Scroll Left)"
+                          title="Previous screenshot (Scroll Left)"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="15 18 9 12 15 6" />
+                          </svg>
+                        </button>
+
+                        <button
+                          type="button"
+                          className={`${styles.sliderNavBtn} ${styles.sliderNavNext}`}
+                          onClick={handleNextSlide}
+                          disabled={currentImgIdx === projectImages.length - 1}
+                          aria-label="Next screenshot (Scroll Right)"
+                          title="Next screenshot (Scroll Right)"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </button>
+
+                        {/* Carousel Bottom Control Bar: Active Caption & Pagination Dots */}
+                        <div className={styles.carouselBottomBar}>
+                          <div className={styles.captionTag}>
+                            <span className={styles.captionDot} />
+                            <span className={styles.captionTitle}>
+                              {projectImages[currentImgIdx]?.title || `Screen 0${currentImgIdx + 1}`}
+                            </span>
+                            {projectImages[currentImgIdx]?.tag && (
+                              <span className={styles.captionCategory}>
+                                · {projectImages[currentImgIdx].tag}
+                              </span>
+                            )}
+                          </div>
+
+                          <div
+                            className={styles.paginationDots}
+                            role="tablist"
+                            aria-label="Screenshots pagination"
+                          >
+                            {projectImages.map((_, dotIdx) => (
+                              <button
+                                key={dotIdx}
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  scrollToSlide(dotIdx);
+                                }}
+                                className={`${styles.dotIndicator} ${
+                                  currentImgIdx === dotIdx ? styles.dotIndicatorActive : ""
+                                }`}
+                                aria-label={`View screenshot ${dotIdx + 1}`}
+                                aria-selected={currentImgIdx === dotIdx}
+                                role="tab"
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Sideways Scroll Hint Badge */}
+                        <div className={styles.scrollHintBadge}>
+                          <span className={styles.scrollHintIcon}>⇄</span>
+                          <span>Scroll sideways</span>
+                        </div>
+                      </>
+                    )}
                   </div>
-                </a>
+                </div>
               </div>
 
               {/* Information & Action Column */}
