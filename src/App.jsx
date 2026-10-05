@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet-async";
 import "./styles/globals.css";
 
 import { SmoothScrollProvider } from "./context/SmoothScrollContext";
-import WebGLBackground    from "./components/WebGLBackground";
 import CustomCursor       from "./components/CustomCursor";
 import AwwwardsBadge      from "./components/AwwwardsBadge";
 import Sidebar            from "./components/Sidebar";
@@ -43,9 +42,6 @@ export default function App() {
 
       {/* Initial load screen with CometDial */}
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
-
-      {/* Premium WebGL Ambient Wave Mesh (Hardware-accelerated Three.js) */}
-      <WebGLBackground />
 
       {/* Ambient background grid mesh */}
       <div className="bg-grid-overlay" aria-hidden="true" />
