@@ -7,19 +7,31 @@ export default function Certifications() {
     <section className={styles.section} id="certifications">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header-eyebrow">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
+          transition={{ duration: 0.6 }}
+          className="section-header-eyebrow"
+        >
           <div className="section-tag">
-            {/* <span className="section-asterisk">✱</span> */}
-            <span>CREDENTIALS</span>
+            <span className="section-asterisk">✱</span>
+            <span>05 / CREDENTIALS</span>
           </div>
-        </div>
+        </motion.div>
 
-        <div className={styles.headerRow}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
+          transition={{ duration: 0.6 }}
+          className={styles.headerRow}
+        >
           <h2 className="section-main-heading">CERTIFICATIONS</h2>
           <p className="section-subtext">
             Formal recognition and rigorous training in artificial intelligence, neural networks, and cloud architecture.
           </p>
-        </div>
+        </motion.div>
 
         <div className={styles.grid}>
           {certifications.map((cert, idx) => (
@@ -27,8 +39,8 @@ export default function Certifications() {
               key={cert.id}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: idx * 0.12 }}
+              viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
               className={styles.card}
             >
               <div className={styles.cardTop}>

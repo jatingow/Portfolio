@@ -10,7 +10,7 @@ export default function Experience() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.6 }}
           className="section-header-eyebrow"
         >
@@ -25,7 +25,7 @@ export default function Experience() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.6 }}
           >
             <h2 className="section-main-heading">TIMELINE & MILESTONES</h2>
@@ -42,7 +42,7 @@ export default function Experience() {
               key={item.id}
               initial={{ opacity: 0, y: 35, scale: 0.98 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: false, margin: "0px 0px -40px 0px" }}
               transition={{
                 duration: 0.55,
                 delay: idx * 0.15,

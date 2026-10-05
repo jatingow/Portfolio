@@ -16,18 +16,24 @@ export default function Contact() {
     <section className={styles.section} id="contact">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header-eyebrow">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
+          transition={{ duration: 0.6 }}
+          className="section-header-eyebrow"
+        >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>GET IN TOUCH</span>
+            <span>06 / GET IN TOUCH</span>
           </div>
-        </div>
+        </motion.div>
 
         <div className={styles.contactWrapper}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.6 }}
             className={styles.headerBlock}
           >
@@ -44,7 +50,7 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.6, delay: 0.15 }}
             className={styles.emailCtaCard}
           >
@@ -76,7 +82,13 @@ export default function Contact() {
           </motion.div>
 
           {/* Social Links Grid */}
-          <div className={styles.socialsGrid}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className={styles.socialsGrid}
+          >
             {contactLinks.map((link, idx) => (
               <a
                 key={link.label}
@@ -95,7 +107,7 @@ export default function Contact() {
                 </div>
               </a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

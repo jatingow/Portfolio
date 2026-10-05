@@ -29,7 +29,7 @@ export default function Stack() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.6 }}
           className="section-header-eyebrow"
         >
@@ -43,7 +43,7 @@ export default function Stack() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.6 }}
           >
             <h2 className="section-main-heading">SYSTEMS & TOOLS</h2>
@@ -56,7 +56,7 @@ export default function Stack() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, margin: "0px 0px -40px 0px" }}
             className={styles.filterPills}
           >
             {categories.map((cat) => (
@@ -73,7 +73,14 @@ export default function Stack() {
         </div>
 
         {/* Dynamic Grid with AnimatePresence */}
-        <motion.div layout className={styles.grid}>
+        <motion.div
+          layout
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.grid}
+        >
           <AnimatePresence mode="popLayout">
             {filteredCategories.map(([categoryKey, items], idx) => (
               <motion.div
@@ -118,7 +125,7 @@ export default function Stack() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
+          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
           transition={{ duration: 0.6 }}
           className={styles.performanceBanner}
         >

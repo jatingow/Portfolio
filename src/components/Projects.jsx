@@ -189,7 +189,7 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="section-header-eyebrow"
         >
@@ -207,7 +207,7 @@ export default function Projects() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="section-main-heading">CRAFTED WITH PRECISION</h2>
@@ -220,7 +220,7 @@ export default function Projects() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, margin: "0px 0px -40px 0px" }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className={styles.tabButtons}
           >
@@ -239,7 +239,13 @@ export default function Projects() {
         </div>
 
         {/* Interactive Selected Project Showcase Card */}
-        <div className={styles.showcaseWrapper}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.showcaseWrapper}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeProject.id}
@@ -481,7 +487,7 @@ export default function Projects() {
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {/* Quick List Overview at Bottom */}
         <div className={styles.allProjectsList}>
@@ -490,8 +496,8 @@ export default function Projects() {
               key={proj.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: false, margin: "0px 0px -30px 0px" }}
+              transition={{ duration: 0.4, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ x: 6 }}
               className={`${styles.miniRow} ${activeIdx === idx ? styles.miniRowActive : ""}`}
               onClick={() => setActiveIdx(idx)}

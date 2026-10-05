@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -29,7 +30,13 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className="container">
-        <div className={styles.footerInner}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "0px 0px -20px 0px" }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.footerInner}
+        >
           {/* Copyright & Info */}
           <div className={styles.leftCol}>
             <span className={styles.copyright}>
@@ -58,7 +65,7 @@ export default function Footer() {
               <span className={styles.topArrow}>↑</span>
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

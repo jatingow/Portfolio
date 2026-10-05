@@ -17,7 +17,7 @@ export default function IntroOverview() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.6 }}
           className="section-header-eyebrow"
         >
@@ -31,7 +31,7 @@ export default function IntroOverview() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.7, delay: 0.1 }}
           className={styles.statementWrapper}
         >
@@ -47,7 +47,7 @@ export default function IntroOverview() {
               key={spec.label}
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              viewport={{ once: false, margin: "0px 0px -40px 0px" }}
               transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
               whileHover={{ y: -3, scale: 1.03 }}
               className={styles.specPill}
@@ -65,7 +65,7 @@ export default function IntroOverview() {
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              viewport={{ once: false, margin: "0px 0px -40px 0px" }}
               transition={{
                 duration: 0.5,
                 delay: 0.2 + idx * 0.1,

@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import styles from "./Marquee.module.css";
 
 function ReactLogo() {
@@ -365,7 +366,14 @@ export default function Marquee() {
   const row2Items = [...MARQUEE_ROW_2, ...MARQUEE_ROW_2, ...MARQUEE_ROW_2];
 
   return (
-    <section className={styles.marqueeSection} aria-label="Tech Stack Showcase">
+    <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className={styles.marqueeSection}
+      aria-label="Tech Stack Showcase"
+    >
       {/* Track 1: Moving Left */}
       <div className={styles.trackWrapper}>
         <div className={styles.trackLeft}>
@@ -403,6 +411,6 @@ export default function Marquee() {
           })}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

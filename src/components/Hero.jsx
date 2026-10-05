@@ -67,11 +67,11 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
     if (prefersReducedMotion || !heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Parallax scroll on Title: moves down, scales slightly down, fades
+      // Parallax scroll on Title: moves down, scales slightly down, fades out
       gsap.to(titleWrapperRef.current, {
         y: 120,
-        scale: 0.94,
-        opacity: 0.25,
+        scale: 0.92,
+        opacity: 0,
         ease: "none",
         scrollTrigger: {
           trigger: heroRef.current,

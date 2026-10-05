@@ -48,7 +48,7 @@ export default function About() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="section-header-eyebrow"
         >
@@ -62,7 +62,7 @@ export default function About() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className={styles.statementWrapper}
         >
@@ -76,7 +76,7 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: false, margin: "0px 0px -50px 0px" }}
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className={styles.leftCol}
             >
@@ -94,7 +94,7 @@ export default function About() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
+                viewport={{ once: false, margin: "0px 0px -40px 0px" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className={styles.card}
               >
@@ -111,7 +111,7 @@ export default function About() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
+                viewport={{ once: false, margin: "0px 0px -40px 0px" }}
                 transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className={styles.card}
               >
@@ -128,7 +128,7 @@ export default function About() {
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
+                viewport={{ once: false, margin: "0px 0px -40px 0px" }}
                 transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 className={styles.card}
               >
