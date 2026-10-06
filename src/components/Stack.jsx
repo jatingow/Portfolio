@@ -35,27 +35,18 @@ export default function Stack() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>03 / TECH STACK</span>
+            <span>TECH STACK</span>
           </div>
         </motion.div>
 
-        <div className={styles.headerRow}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="section-main-heading">TECH STACK</h2>
-          </motion.div>
-
-          {/* Interactive Category Filter Pills */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, margin: "0px 0px -40px 0px" }}
-            className={styles.filterPills}
-          >
+        {/* Interactive Category Filter Pills */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+          className={styles.headerRow}
+        >
+          <div className={styles.filterPills}>
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -66,8 +57,8 @@ export default function Stack() {
                 {cat === "Backend_DB" ? "Backend" : cat === "Tools_DevOps" ? "DevOps" : cat}
               </button>
             ))}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         {/* Dynamic Grid with AnimatePresence */}
         <motion.div
@@ -116,29 +107,6 @@ export default function Stack() {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
-
-        {/* Performance & Quality Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
-          transition={{ duration: 0.6 }}
-          className={styles.performanceBanner}
-        >
-          <div className={styles.bannerLeft}>
-            <span className={styles.bannerIcon}>⚡</span>
-            <div>
-              <h4 className={styles.bannerTitle}>Performance-First Philosophy</h4>
-              <p className={styles.bannerDesc}>
-                Targeting green Core Web Vitals, accessible semantic markup, and predictable state transitions across all projects.
-              </p>
-            </div>
-          </div>
-          <div className={styles.scorePill}>
-            <span className={styles.scoreNum}>95+</span>
-            <span className={styles.scoreLabel}>LIGHTHOUSE SCORE</span>
-          </div>
         </motion.div>
       </div>
     </section>

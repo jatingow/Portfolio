@@ -195,32 +195,22 @@ export default function Projects() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>02 / PROJECTS</span>
+            <span>PROJECTS</span>
           </div>
           <span className={styles.countIndicator}>
             (0{activeIdx + 1} / 0{projects.length})
           </span>
         </motion.div>
 
-        {/* Section Title & Tabs Row */}
-        <div className={styles.headerRow}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h2 className="section-main-heading">PROJECTS</h2>
-          </motion.div>
-
-          {/* Interactive Project Switcher Tabs */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, margin: "0px 0px -40px 0px" }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className={styles.tabButtons}
-          >
+        {/* Interactive Project Switcher Tabs */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.headerRow}
+        >
+          <div className={styles.tabButtons}>
             {projects.map((proj, i) => (
               <button
                 key={proj.id}
@@ -232,8 +222,8 @@ export default function Projects() {
                 <span className={styles.tabTitle}>{proj.title}</span>
               </button>
             ))}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
 
         {/* Interactive Selected Project Showcase Card */}
         <motion.div

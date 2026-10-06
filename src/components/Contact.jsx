@@ -25,21 +25,11 @@ export default function Contact() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>06 / GET IN TOUCH</span>
+            <span>GET IN TOUCH</span>
           </div>
         </motion.div>
 
         <div className={styles.contactWrapper}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.6 }}
-            className={styles.headerBlock}
-          >
-            <h2 className="section-main-heading">GET IN TOUCH</h2>
-          </motion.div>
-
           {/* Giant Copy Email Interactive Card */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

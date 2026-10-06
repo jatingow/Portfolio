@@ -22,7 +22,7 @@ export default function About() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>01 / ABOUT ME</span>
+            <span>ABOUT ME</span>
           </div>
         </motion.div>
 

@@ -16,24 +16,11 @@ export default function Experience() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>04 / EXPERIENCE & JOURNEY</span>
+            <span>EXPERIENCE</span>
           </div>
           <span className={styles.counterText}>0{experience.length} ENTRIES</span>
         </motion.div>
 
-        <div className={styles.headerRow}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="section-main-heading">TIMELINE & MILESTONES</h2>
-            <p className="section-subtext">
-              Bridging fundamental computer science principles with high-impact open source contributions and software engineering.
-            </p>
-          </motion.div>
-        </div>
 
         {/* Interactive Timeline list */}
         <div className={styles.timeline}>
