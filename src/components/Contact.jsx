@@ -37,13 +37,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className={styles.headerBlock}
           >
-            <h2 className={styles.bigTitle}>
-              LET'S BUILD <br />
-              <span className={styles.accentText}>SOMETHING EXTRAORDINARY.</span>
-            </h2>
-            <p className={styles.subtext}>
-              Available for full-time engineering opportunities, freelance projects, and open source collaborations.
-            </p>
+            <h2 className="section-main-heading">GET IN TOUCH</h2>
           </motion.div>
 
           {/* Giant Copy Email Interactive Card */}

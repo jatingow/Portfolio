@@ -195,7 +195,7 @@ export default function Projects() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>02 / SELECTED WORKS</span>
+            <span>02 / PROJECTS</span>
           </div>
           <span className={styles.countIndicator}>
             (0{activeIdx + 1} / 0{projects.length})
@@ -210,10 +210,7 @@ export default function Projects() {
             viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h2 className="section-main-heading">CRAFTED WITH PRECISION</h2>
-            <p className="section-subtext">
-              Real-world web applications built with a focus on performance, clean architecture, and delightful user interaction.
-            </p>
+            <h2 className="section-main-heading">PROJECTS</h2>
           </motion.div>
 
           {/* Interactive Project Switcher Tabs */}

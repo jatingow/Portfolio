@@ -27,10 +27,7 @@ export default function Certifications() {
           transition={{ duration: 0.6 }}
           className={styles.headerRow}
         >
-          <h2 className="section-main-heading">CERTIFICATIONS</h2>
-          <p className="section-subtext">
-            Formal recognition and rigorous training in artificial intelligence, neural networks, and cloud architecture.
-          </p>
+          <h2 className="section-main-heading">CREDENTIALS</h2>
         </motion.div>
 
         <div className={styles.grid}>

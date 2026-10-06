@@ -4,7 +4,7 @@ import styles from "./Sidebar.module.css";
 
 const NAV_LINKS = [
   { num: "01", label: "ABOUT", href: "#about" },
-  { num: "02", label: "WORKS", href: "#projects" },
+  { num: "02", label: "PROJECTS", href: "#projects" },
   { num: "03", label: "STACK", href: "#stack" },
   { num: "04", label: "TIMELINE", href: "#experience" },
 ];

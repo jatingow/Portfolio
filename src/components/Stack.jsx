@@ -35,7 +35,7 @@ export default function Stack() {
         >
           <div className="section-tag">
             <span className="section-asterisk">✱</span>
-            <span>03 / TECH CAPABILITIES</span>
+            <span>03 / TECH STACK</span>
           </div>
         </motion.div>
 
@@ -46,10 +46,7 @@ export default function Stack() {
             viewport={{ once: false, margin: "0px 0px -50px 0px" }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="section-main-heading">SYSTEMS & TOOLS</h2>
-            <p className="section-subtext">
-              A comprehensive toolbox refined through academic coursework, personal architectures, and open-source contributions.
-            </p>
+            <h2 className="section-main-heading">TECH STACK</h2>
           </motion.div>
 
           {/* Interactive Category Filter Pills */}
