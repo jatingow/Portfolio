@@ -20,9 +20,9 @@ export default function About() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="section-header-eyebrow"
         >
-          <div className="section-tag">
+          <div className={`section-tag ${styles.headingTag}`}>
             <span className="section-asterisk">✱</span>
-            <span>ABOUT ME</span>
+            <span className={styles.headingText}>About Me</span>
           </div>
         </motion.div>
 
