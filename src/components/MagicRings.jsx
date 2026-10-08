@@ -71,8 +71,8 @@ void main() {
 `;
 
 export default function MagicRings({
-  color = '#0e36b0ff',
-  colorTwo = '#42fcff',
+  color = '#e3e6eeff',
+  colorTwo = '#ffffffff',
   speed = 1.5,
   ringCount = 6,
   attenuation = 10,
@@ -233,8 +233,8 @@ export default function MagicRings({
       lastT = t;
       elapsed += dt * 0.001 * p.speed;
 
-      if (p.oneCycle && elapsed >= 3.45) {
-        elapsed = 3.45;
+      if (p.oneCycle && elapsed >= 3.25) {
+        elapsed = 3.25;
         uniforms.uTime.value = elapsed;
         renderer.render(scene, camera);
         frameId = 0;

@@ -47,11 +47,9 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
   color: var(--accent-cyan);
   font-weight: 700;
   cursor: pointer;
-  border-bottom: 2px dashed rgba(56, 189, 248, 0.45);
   padding: 0 4px;
   border-radius: 4px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -62,7 +60,6 @@
 .nameHighlight:focus-visible {
   color: #ffffff;
   background: rgba(56, 189, 248, 0.14);
-  border-bottom-color: var(--accent-cyan);
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
 }
 
@@ -71,15 +68,28 @@
   background: rgba(2, 132, 199, 0.12);
 }
 
-.nameSparkle {
-  font-size: 0.75em;
-  color: var(--accent-cyan);
-  display: inline-block;
-  transition: transform 0.3s ease;
+/* Playful bounce that keeps bouncing until hovered on once */
+.bouncy {
+  animation: nameBounce 2s ease-in-out infinite;
+  will-change: transform;
 }
 
-.nameHighlight:hover .nameSparkle {
-  transform: rotate(90deg) scale(1.2);
+@keyframes nameBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  28% {
+    transform: translateY(-5px);
+  }
+  42% {
+    transform: translateY(0);
+  }
+  56% {
+    transform: translateY(-2.5px);
+  }
+  70% {
+    transform: translateY(0);
+  }
 }
 
 /* Floating Photo Popup Card */

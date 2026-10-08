@@ -15,6 +15,7 @@ export default function About() {
   const sectionRef = useRef(null);
   const [showPhoto, setShowPhoto] = useState(false);
   const [photoCandidateIdx, setPhotoCandidateIdx] = useState(0);
+  const [hasBeenHovered, setHasBeenHovered] = useState(false);
 
   const handleImageError = () => {
     if (photoCandidateIdx < PHOTO_CANDIDATES.length - 1) {
@@ -59,17 +60,22 @@ export default function About() {
             Hey everyone, I'm{" "}
             <span className={styles.nameWrapper}>
               <span
-                className={styles.nameHighlight}
-                onMouseEnter={() => setShowPhoto(true)}
+                className={`${styles.nameHighlight} ${!hasBeenHovered ? styles.bouncy : ""}`}
+                onMouseEnter={() => {
+                  setShowPhoto(true);
+                  setHasBeenHovered(true);
+                }}
                 onMouseLeave={() => setShowPhoto(false)}
-                onFocus={() => setShowPhoto(true)}
+                onFocus={() => {
+                  setShowPhoto(true);
+                  setHasBeenHovered(true);
+                }}
                 onBlur={() => setShowPhoto(false)}
                 tabIndex={0}
                 role="button"
                 aria-label="Jatin Kumar (hover to view photo)"
               >
                 Jatin Kumar
-                <span className={styles.nameSparkle}>✦</span>
               </span>
 
               <AnimatePresence>

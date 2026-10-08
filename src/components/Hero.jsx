@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { personalInfo } from "../data/data";
@@ -114,12 +113,7 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
 
       <div className={styles.heroContainer}>
         {/* Top Canvas Bar: Jatin Kumar (Left) & Controls (Right) */}
-        <motion.div
-          initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className={styles.heroTopRow}
-        >
+        <div className={styles.heroTopRow}>
           <a
             href="#hero"
             onClick={handleScrollToHero}
@@ -176,31 +170,22 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
               )}
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Main Title Left-Aligned with Layered Parallax */}
         <div className={styles.titleArea}>
           <div ref={titleWrapperRef} className={styles.titleWrapper}>
-            <motion.div
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1 className={styles.heroTitle}>
-                <span className={styles.titleLine}>FULL-STACK</span>
-                <span className={styles.titleLine}>DEVELOPER</span>
-              </h1>
-            </motion.div>
+            <h1 className={styles.heroTitle}>
+              <span className={styles.titleLine}>FULL-STACK</span>
+              <span className={styles.titleLine}>DEVELOPER</span>
+            </h1>
           </div>
         </div>
 
         {/* Bottom Controls Row: Scroll Down Badge (Left) & Open To Work (Right) */}
         <div ref={bottomRowRef} className={styles.heroBottomRow}>
           {/* Bottom Left: Circular Rotating "SCROLL DOWN" Stamp */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          <button
             onClick={handleScrollToNext}
             className={styles.scrollBadgeBtn}
             aria-label="Scroll down to content"
@@ -219,21 +204,16 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
               </text>
             </svg>
             <div className={styles.centerAsterisk}>✱</div>
-          </motion.button>
+          </button>
 
           {/* Bottom Right: Open To Work & Location */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className={styles.openToWorkBox}
-          >
+          <div className={styles.openToWorkBox}>
             <div className={styles.openToWorkHeader}>
               <span className={styles.openToWorkText}>OPEN TO WORK</span>
               <span className={styles.sparkleIcon}>✱</span>
             </div>
             <span className={styles.locationSubtext}>Based in {personalInfo.location}</span>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

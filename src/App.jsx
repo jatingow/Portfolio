@@ -45,10 +45,7 @@ export default function App() {
       {isLoading && (
         <LoadingScreen
           onFocusStart={() => setIsFocusing(true)}
-          onComplete={() => {
-            setIsLoading(false);
-            setIsFocusing(false);
-          }}
+          onComplete={() => setIsLoading(false)}
         />
       )}
 
@@ -69,7 +66,7 @@ export default function App() {
         setIsOpen={setSidebarOpen}
       />
 
-      <main className={isLoading ? (isFocusing ? "hero-focus-in" : "hero-defocused") : ""}>
+      <main className={isFocusing ? "hero-focus-in" : "hero-defocused"}>
         {/* Full-Screen continuous Hero canvas with integrated brand and controls */}
         <Hero
           theme={theme}

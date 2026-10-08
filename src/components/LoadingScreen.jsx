@@ -3,49 +3,45 @@ import MagicRings from "./MagicRings";
 import styles from "./LoadingScreen.module.css";
 
 export default function LoadingScreen({ onFocusStart, onComplete }) {
-  const [isFocusing, setIsFocusing] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
+  const [ringsDisappeared, setRingsDisappeared] = useState(false);
+  const [backdropRevealed, setBackdropRevealed] = useState(false);
   const hasFinishedRef = useRef(false);
 
   // Speed: 1.5, Shader CYCLE = 3.45.
-  // Exactly 1 cycle duration = 3.45 / 1.5 = 2.30s (2300ms)
+  // Single cycle completes around 3.25 / 1.5 = ~2.16s (2160ms)
   const speed = 1.5;
-  const cycleDurationMs = (3.45 / speed) * 1000;
-  // Hero focus begins exactly 2 seconds before the cycle ends:
-  const focusLeadMs = 2000;
-  const focusStartDelayMs = Math.max(50, cycleDurationMs - focusLeadMs);
+  const cycleDurationMs = (3.25 / speed) * 1000;
 
-  const handleFinish = () => {
+  const handleCycleComplete = () => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
-    setIsExiting(true);
+
+    // Immediately fade rings, reveal backdrop, and focus the hero page without any time gap
+    setRingsDisappeared(true);
+    setBackdropRevealed(true);
+    onFocusStart?.();
+
+    // Clean up loading screen overlay swiftly
     setTimeout(() => {
       document.body.style.overflow = "";
       onComplete?.();
-    }, 150);
+    }, 200);
   };
 
   useEffect(() => {
     // Lock body scroll while loader is active
     document.body.style.overflow = "hidden";
 
-    // Exactly 2 seconds before rings end, trigger hero focus-in
-    const focusTimer = setTimeout(() => {
-      setIsFocusing(true);
-      onFocusStart?.();
-    }, focusStartDelayMs);
-
     // Fallback safeguard timer matching the 1 cycle duration
     const fallbackTimer = setTimeout(() => {
-      handleFinish();
+      handleCycleComplete();
     }, cycleDurationMs + 100);
 
     return () => {
-      clearTimeout(focusTimer);
       clearTimeout(fallbackTimer);
       document.body.style.overflow = "";
     };
-  }, [focusStartDelayMs, cycleDurationMs, onFocusStart]);
+  }, [cycleDurationMs]);
 
   return (
     <div
@@ -53,23 +49,23 @@ export default function LoadingScreen({ onFocusStart, onComplete }) {
       role="status"
       aria-label="Loading portfolio"
     >
-      {/* Dark background layer that smoothly fades to transparent 2s before rings end */}
+      {/* Dark background layer that remains opaque until rings have completely disappeared */}
       <div
-        className={`${styles.backdropLayer} ${isFocusing ? styles.focusing : ""}`}
+        className={`${styles.backdropLayer} ${backdropRevealed ? styles.revealed : ""}`}
         aria-hidden="true"
       />
 
       {/* Subtle ambient center glow */}
       <div
-        className={`${styles.ambientGlow} ${isFocusing ? styles.focusing : ""}`}
+        className={`${styles.ambientGlow} ${ringsDisappeared ? styles.fading : ""}`}
         aria-hidden="true"
       />
 
       {/* Fullscreen MagicRings canvas running for exactly one cycle */}
-      <div className={`${styles.ringsFullscreen} ${isExiting ? styles.exiting : ""}`}>
+      <div className={`${styles.ringsFullscreen} ${ringsDisappeared ? styles.disappeared : ""}`}>
         <MagicRings
-          color="#0e36b0"
-          colorTwo="#42fcff"
+          color="#edeff5ff"
+          colorTwo="#a6feffff"
           ringCount={6}
           speed={speed}
           attenuation={10}
@@ -90,7 +86,7 @@ export default function LoadingScreen({ onFocusStart, onComplete }) {
           parallax={0.05}
           clickBurst={false}
           oneCycle={true}
-          onCycleComplete={handleFinish}
+          onCycleComplete={handleCycleComplete}
         />
       </div>
     </div>
