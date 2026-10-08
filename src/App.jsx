@@ -19,6 +19,7 @@ import LoadingScreen      from "./components/LoadingScreen";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isFocusing, setIsFocusing] = useState(false);
   const [theme, setTheme] = useState("dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -40,8 +41,16 @@ export default function App() {
         />
       </Helmet>
 
-      {/* Initial load screen with CometDial */}
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {/* Initial load screen with MagicRings */}
+      {isLoading && (
+        <LoadingScreen
+          onFocusStart={() => setIsFocusing(true)}
+          onComplete={() => {
+            setIsLoading(false);
+            setIsFocusing(false);
+          }}
+        />
+      )}
 
       {/* Ambient background grid mesh */}
       <div className="bg-grid-overlay" aria-hidden="true" />
@@ -60,7 +69,7 @@ export default function App() {
         setIsOpen={setSidebarOpen}
       />
 
-      <main>
+      <main className={isLoading ? (isFocusing ? "hero-focus-in" : "hero-defocused") : ""}>
         {/* Full-Screen continuous Hero canvas with integrated brand and controls */}
         <Hero
           theme={theme}

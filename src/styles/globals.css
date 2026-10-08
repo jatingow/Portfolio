@@ -235,6 +235,23 @@ button {
   line-height: 1.7;
 }
 
+/* ── Cinematic Hero Focus-In Entrance ── */
+.hero-defocused {
+  filter: blur(22px) brightness(0.55);
+  transform: scale(0.96);
+  transform-origin: center center;
+  will-change: filter, transform;
+}
+
+.hero-focus-in {
+  filter: blur(0px) brightness(1);
+  transform: scale(1);
+  transform-origin: center center;
+  transition: filter 2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: filter, transform;
+}
+
 /* ── Hide Default Browser Arrow on Pointer Fine Devices ── */
 @media (pointer: fine) {
   html,
