@@ -28,52 +28,183 @@
   margin-bottom: 2.75rem;
 }
 
-.statementText {
+.statementLead {
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.8rem, 3.8vw, 3.2rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: var(--tx);
-  margin-bottom: 1.5rem;
-}
-
-.highlightText {
-  color: #ffffff;
-  text-decoration: underline;
-  text-decoration-color: rgba(56, 189, 248, 0.5);
-  text-underline-offset: 6px;
-}
-
-[data-theme="light"] .highlightText {
-  color: #000000;
-  text-decoration-color: rgba(2, 132, 199, 0.5);
-}
-
-.statementSub {
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  font-size: clamp(1.22rem, 1.9vw, 1.65rem);
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--tx);
+  max-width: 960px;
+  margin-bottom: 1.75rem;
+}
+
+.nameWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nameHighlight {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 2px dashed rgba(56, 189, 248, 0.45);
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.nameHighlight:hover,
+.nameHighlight:focus-visible {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.14);
+  border-bottom-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+[data-theme="light"] .nameHighlight:hover {
+  color: #000000;
+  background: rgba(2, 132, 199, 0.12);
+}
+
+.nameSparkle {
+  font-size: 0.75em;
+  color: var(--accent-cyan);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.nameHighlight:hover .nameSparkle {
+  transform: rotate(90deg) scale(1.2);
+}
+
+/* Floating Photo Popup Card */
+.photoPopup {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(18, 18, 23, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(56, 189, 248, 0.25);
+  width: 175px;
+}
+
+[data-theme="light"] .photoPopup {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(2, 132, 199, 0.4);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18), 0 0 25px rgba(2, 132, 199, 0.15);
+}
+
+.photoPopup::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 7px;
+  border-style: solid;
+  border-color: rgba(18, 18, 23, 0.96) transparent transparent transparent;
+}
+
+[data-theme="light"] .photoPopup::after {
+  border-color: rgba(255, 255, 255, 0.96) transparent transparent transparent;
+}
+
+.photoFrame {
+  width: 155px;
+  height: 185px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #0d0d12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.photoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.photoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 14px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(129, 140, 248, 0.12));
+}
+
+.avatarInitials {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.uploadPrompt {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--tx-muted);
+  line-height: 1.35;
+}
+
+.photoCaption {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--tx);
+  white-space: nowrap;
+}
+
+.captionDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 6px var(--accent-emerald);
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
   max-width: 920px;
 }
 
-/* ── PART 2: BIO SECTION ── */
-.bioWrapper {
-  width: 100%;
-  max-width: 880px;
-}
-
-.bioTextGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.bioParagraph {
-  font-size: clamp(1.02rem, 1.25vw, 1.18rem);
-  line-height: 1.85;
+.detailParagraph {
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.8;
   color: var(--tx-muted);
   font-weight: 400;
+  margin: 0;
 }

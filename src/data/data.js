@@ -4,11 +4,10 @@ export const personalInfo = {
   role: "Creative Engineer & CS Student",
   location: "Delhi, India",
   status: "Available for roles & freelance",
-  bio: "CS engineering student obsessed with building high-performance web applications, fluid digital experiences, and scalable software architectures.",
-  aboutLong: [
-    "I'm a developer and CS engineering student based in Delhi, India, driven by the intersection of high-performance engineering and visceral digital aesthetics. My work is anchored around modern JavaScript, React, and Next.js, extending downward into backend architectures, APIs, and systems.",
-    "I believe great software is crafted with equal parts technical rigor and aesthetic elegance. Whether architecting AI-powered platforms or building private offline-first utilities, I obsess over milliseconds, micro-interactions, and pristine code.",
-    "Outside the terminal, you'll find me exploring cinematic films, world-building in anime, or deep-diving into contemporary music."
+  bioLead: "Hey everyone, I'm Jatin Kumar. A 3rd year CS student. I have been learning how to program for about 3 years now.",
+  bioDetails: [
+    "I focus on crafting fast, modern web applications and scalable full-stack software, working primarily with React, Next.js, JavaScript, and backend systems.",
+    "Driven by clean architecture, intuitive micro-interactions, and open-source collaboration. Always keen to explore emerging tech and build products that solve real problems."
   ],
   stats: [
     { value: "+3", label: "Years Coding" },
