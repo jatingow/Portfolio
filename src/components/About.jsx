@@ -4,9 +4,9 @@ import { personalInfo } from "../data/data";
 import styles from "./About.module.css";
 
 const PHOTO_CANDIDATES = [
+  "/jatin.jpeg",
   "/jatin.jpg",
   "/jatin.png",
-  "/jatin.jpeg",
   "/profile.jpg",
   "/profile.png",
 ];
@@ -100,14 +100,10 @@ export default function About() {
                           <span className={styles.avatarInitials}>JK</span>
                           <span className={styles.uploadPrompt}>
                             Drop photo into:<br />
-                            <strong>public/jatin.jpg</strong>
+                            <strong>public/jatin.jpeg</strong>
                           </span>
                         </span>
                       )}
-                    </span>
-                    <span className={styles.photoCaption}>
-                      <span className={styles.captionDot} />
-                      Jatin Kumar · CS Student
                     </span>
                   </motion.span>
                 )}

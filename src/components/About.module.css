@@ -75,18 +75,24 @@
 }
 
 @keyframes nameBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   28% {
     transform: translateY(-5px);
   }
+
   42% {
     transform: translateY(0);
   }
+
   56% {
     transform: translateY(-2.5px);
   }
+
   70% {
     transform: translateY(0);
   }
@@ -100,24 +106,22 @@
   transform: translateX(-50%);
   z-index: 1000;
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
   background: rgba(18, 18, 23, 0.96);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-cyan);
-  border-radius: var(--radius-md);
-  padding: 10px;
+  border-radius: 12px;
+  padding: 2px;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(56, 189, 248, 0.25);
-  width: 175px;
+  width: 220px;
+  height: 300px;
+  box-sizing: border-box;
 }
 
 [data-theme="light"] .photoPopup {
   background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(2, 132, 199, 0.4);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18), 0 0 25px rgba(2, 132, 199, 0.15);
+  border-color: rgba(2, 132, 199, 0.45);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18), 0 0 25px rgba(2, 132, 199, 0.2);
 }
 
 .photoPopup::after {
@@ -126,7 +130,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 7px;
+  border-width: 6px;
   border-style: solid;
   border-color: rgba(18, 18, 23, 0.96) transparent transparent transparent;
 }
@@ -136,16 +140,15 @@
 }
 
 .photoFrame {
-  width: 155px;
-  height: 185px;
-  border-radius: var(--radius-sm);
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
   overflow: hidden;
   background: #0d0d12;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .photoImg {
@@ -183,25 +186,6 @@
   font-size: 0.65rem;
   color: var(--tx-muted);
   line-height: 1.35;
-}
-
-.photoCaption {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  color: var(--tx);
-  white-space: nowrap;
-}
-
-.captionDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--accent-emerald);
-  box-shadow: 0 0 6px var(--accent-emerald);
 }
 
 .detailsList {
