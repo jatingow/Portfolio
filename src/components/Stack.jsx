@@ -1,113 +1,143 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { stack, hotSkills } from "../data/data";
+import { motion } from "framer-motion";
 import styles from "./Stack.module.css";
 
-const CATEGORY_NAMES = {
-  All: "All Capabilities",
-  Frontend: "Frontend Architecture",
-  Languages: "Core Languages",
-  Backend_DB: "Backend & Databases",
-  Tools_DevOps: "Systems, Git & DevOps",
-};
+// All tech stack items with their icons and official URLs
+// Perfect inverted pyramid: 12 -> 10 -> 8 -> 6 -> 4 -> 2
+const techStack = [
+  // Row 1 - 12 items (largest)
+  [
+    { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", url: "https://python.org" },
+    { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", url: "https://typescriptlang.org" },
+    { name: "C", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg", url: "https://en.cppreference.com/w/c" },
+    { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg", url: "https://isocpp.org" },
+    // { name: "Kotlin", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg", url: "https://kotlinlang.org" },
+    { name: "HTML", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", url: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+    { name: "CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg", url: "https://developer.mozilla.org/en-US/docs/Web/CSS" },
+    { name: "Bash", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg", url: "https://www.gnu.org/software/bash/" },
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", url: "https://react.dev" },
+    { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", url: "https://nextjs.org" },
+    // { name: "Bootstrap", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg", url: "https://getbootstrap.com" },
+  ],
+  // Row 2 - 10 items
+  [
+    { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", url: "https://nodejs.org" },
+    { name: "Django", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg", url: "https://djangoproject.com" },
+    { name: "Flask", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg", url: "https://flask.palletsprojects.com" },
+    { name: "FastAPI", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg", url: "https://fastapi.tiangolo.com" },
+    { name: "TensorFlow", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg", url: "https://tensorflow.org" },
+    { name: "PyTorch", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg", url: "https://pytorch.org" },
+    { name: "Scikit-learn", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg", url: "https://scikit-learn.org" },
+    // { name: "OpenCV", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg", url: "https://opencv.org" },
+    { name: "NumPy", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg", url: "https://numpy.org" },
+    { name: "Tailwind", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", url: "https://tailwindcss.com" },
+  ],
+  // Row 3 - 8 items
+  [
+    { name: "Pandas", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg", url: "https://pandas.pydata.org" },
+    { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", url: "https://mysql.com" },
+    { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg", url: "https://postgresql.org" },
+    { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg", url: "https://mongodb.com" },
+    { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg", url: "https://firebase.google.com" },
+    { name: "Redis", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg", url: "https://redis.io" },
+    { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", url: "https://docker.com" },
+    // { name: "Azure", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg", url: "https://azure.microsoft.com" },
+  ],
+  // Row 4 - 6 items
+  [
+    { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", url: "https://git-scm.com" },
+    { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg", url: "https://github.com" },
+    { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg", url: "https://linux.org" },
+    // { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg", url: "https://aws.amazon.com" },
+    { name: "VS Code", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg", url: "https://code.visualstudio.com" },
+    { name: "Vercel", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg", url: "https://vercel.com" },
+  ],
+  // Row 5 - 4 items
+  [
+    { name: "Jupyter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg", url: "https://jupyter.org" },
+    { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", url: "https://figma.com" },
+    { name: "Postman", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg", url: "https://postman.com" },
+    // { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-original.svg", url: "https://adobe.com/products/photoshop" },
+  ],
+  // Row 6 - 2 items (tip of pyramid)
+  [
+    // { name: "Hugging Face", icon: "https://huggingface.co/front/assets/huggingface_logo-noborder.svg", url: "https://huggingface.co" },
+    { name: "MS Office", icon: "https://img.icons8.com/color/48/microsoft-office-2019.png", url: "https://www.microsoft.com/microsoft-365" },
+  ],
+];
 
 export default function Stack() {
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const categories = ["All", ...Object.keys(stack)];
-
-  // Filter skills based on selected category
-  const filteredCategories =
-    activeCategory === "All"
-      ? Object.entries(stack)
-      : [[activeCategory, stack[activeCategory]]];
-
   return (
-    <section className={styles.section} id="stack">
-      <div className="container">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+    <section className={styles.techstackNew} id="stack">
+      {/* Video Background */}
+      <div className={styles.techstackVideoContainer}>
+        {/* Ambient Blue Radial Glow */}
+        <div className={styles.techstackTunnelGlow} />
+
+        {/* Video Element */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={styles.techstackVideo}
+        >
+          <source src="/video/video.webm" type="video/webm" />
+        </video>
+
+        {/* Dark Blue Overlay */}
+        <div className={styles.techstackOverlay} />
+      </div>
+
+      {/* Main Content */}
+      <div className={styles.techstackContent}>
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "0px 0px -50px 0px" }}
-          transition={{ duration: 0.6 }}
-          className="section-header-eyebrow"
+          viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className={styles.title}
         >
-          <div className="section-tag">
-            <span className="section-asterisk">✱</span>
-            <span>TECH STACK</span>
-          </div>
-        </motion.div>
+          TECH STACK
+        </motion.h2>
 
-        {/* Interactive Category Filter Pills */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
-          className={styles.headerRow}
-        >
-          <div className={styles.filterPills}>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`${styles.filterBtn} ${activeCategory === cat ? styles.filterBtnActive : ""}`}
-                aria-label={`Filter by ${cat}`}
-              >
-                {cat === "Backend_DB" ? "Backend" : cat === "Tools_DevOps" ? "DevOps" : cat}
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Dynamic Grid with AnimatePresence */}
-        <motion.div
-          layout
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "0px 0px -40px 0px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className={styles.grid}
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredCategories.map(([categoryKey, items], idx) => (
-              <motion.div
-                key={categoryKey}
-                layout
-                initial={{ opacity: 0, scale: 0.94, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94, y: -20 }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className={styles.stackCard}
-              >
-                <div className={styles.cardTop}>
-                  <span className={styles.cardCategoryIndex}>0{idx + 1}</span>
-                  <span className={styles.cardCategoryTitle}>
-                    {CATEGORY_NAMES[categoryKey] || categoryKey}
-                  </span>
-                </div>
-
-                <div className={styles.badgesWrapper}>
-                  {items.map((tech) => {
-                    const isHot = hotSkills.includes(tech);
-                    return (
-                      <motion.div
-                        key={tech}
-                        whileHover={{ y: -3, scale: 1.05 }}
-                        whileTap={{ scale: 0.96 }}
-                        className={`${styles.techBadge} ${isHot ? styles.techBadgeHot : ""}`}
-                      >
-                        {isHot && <span className={styles.hotDot} />}
-                        <span className={styles.techName}>{tech}</span>
-                        {isHot && <span className={styles.hotTag}>PRO</span>}
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* Inverted Pyramid Rows */}
+        <div className={styles.techstackPyramid}>
+          {techStack.map((row, rowIndex) => (
+            <motion.div
+              key={rowIndex}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -30px 0px" }}
+              transition={{
+                duration: 0.5,
+                delay: rowIndex * 0.08,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className={styles.techstackRow}
+            >
+              {row.map((tech, techIndex) => (
+                <a
+                  key={techIndex}
+                  href={tech.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.techstackItem}
+                  title={tech.name}
+                  data-cursor="disable"
+                >
+                  <img
+                    src={tech.icon}
+                    alt={tech.name}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span>{tech.name}</span>
+                </a>
+              ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -6,7 +6,6 @@ import styles from "./Projects.module.css";
 
 export default function Projects() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [isFlipped, setIsFlipped] = useState(false);
 
   const activeProject = projects[activeIdx] || projects[0];
   const projectTitles = useMemo(() => projects.map((p) => p.title), []);
@@ -14,24 +13,7 @@ export default function Projects() {
   const handleWheelChange = (index) => {
     if (index !== activeIdx && index >= 0 && index < projects.length) {
       setActiveIdx(index);
-      setIsFlipped(false);
     }
-  };
-
-  const handlePrev = () => {
-    const prevIdx = Math.max(0, activeIdx - 1);
-    setActiveIdx(prevIdx);
-    setIsFlipped(false);
-  };
-
-  const handleNext = () => {
-    const nextIdx = Math.min(projects.length - 1, activeIdx + 1);
-    setActiveIdx(nextIdx);
-    setIsFlipped(false);
-  };
-
-  const toggleFlip = () => {
-    setIsFlipped((prev) => !prev);
   };
 
   return (
@@ -46,237 +28,148 @@ export default function Projects() {
           className="section-header-eyebrow"
         >
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
             <span>PROJECTS</span>
           </div>
           <span className={styles.countIndicator}>
-            (0{activeIdx + 1} / 0{projects.length} · SCROLL WHEEL TO SWITCH)
+            (0{activeIdx + 1} / 0{projects.length} · SCROLL WHEEL TO EXPLORE)
           </span>
         </motion.div>
+      </div>
 
-        {/* Main Showcase Layout: Left Flip Card + Right OptionWheel */}
-        <div className={styles.showcaseGrid}>
-          {/* ── LEFT: Single Interactive 3D Flip Card ── */}
-          <div className={styles.cardColumn}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeProject.id}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className={styles.cardContainer}
-                onClick={toggleFlip}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggleFlip();
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Project card for ${activeProject.title}. Showing ${
-                  isFlipped ? "details" : "image preview"
-                }. Click or press Enter to flip.`}
-                aria-pressed={isFlipped}
+      {/* Main Showcase Layout: Wheel on left, Project Showcase on right */}
+      <div className={styles.showcaseWrapper}>
+        {/* ── LEFT: OptionWheel at the very left end of screen ── */}
+        <div className={styles.wheelLeftSection} data-lenis-prevent="true">
+          <OptionWheel
+            items={projectTitles}
+            defaultSelected={activeIdx}
+            textColor="#71717a"
+            activeColor="#ffffff"
+            side="left"
+            fontSize={3.4}
+            spacing={1.6}
+            curve={1.25}
+            tilt={13}
+            blur={2.25}
+            fade={0.26}
+            smoothing={200}
+            inset={0}
+            loop={false}
+            draggable
+            onChange={handleWheelChange}
+          />
+        </div>
+
+        {/* ── RIGHT: Project Showcase (Clickable Image on Left, Details on Right) ── */}
+        <div className={styles.projectMainSection}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeProject.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className={styles.projectCard}
+            >
+              {/* Clickable Image (Redirects to project link anywhere on the image) */}
+              <a
+                href={activeProject.live || activeProject.link || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.imageContainer}
+                aria-label={`Visit live project for ${activeProject.title}`}
+                title={`Visit live project: ${activeProject.title}`}
               >
-                <div
-                  className={`${styles.cardInner} ${
-                    isFlipped ? styles.isFlipped : ""
-                  }`}
-                >
-                  {/* ── FRONT FACE (Only the project image is seen) ── */}
-                  <div className={`${styles.cardFace} ${styles.cardFront}`}>
-                    <img
-                      src={activeProject.image}
-                      alt={activeProject.title}
-                      className={styles.frontImage}
-                      loading="eager"
-                      draggable="false"
-                    />
-
-                    {/* Gradient overlay for contrast */}
-                    <div className={styles.frontOverlay} />
-
-                    {/* Hover Prompt */}
-                    <div className={styles.flipPrompt}>
-                      <span className={styles.flipPromptIcon}>↻</span>
-                      <span className={styles.flipPromptText}>
-                        Click to flip for details
-                      </span>
-                    </div>
-
-                    {/* Corner Tag */}
-                    <div className={styles.frontCornerTag}>
-                      <span className={styles.cornerDot} />
-                      <span className={styles.cornerIndex}>
-                        0{activeProject.id}
-                      </span>
-                      <span className={styles.cornerTitle}>
-                        {activeProject.title}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* ── BACK FACE (Details of that project) ── */}
-                  <div className={`${styles.cardFace} ${styles.cardBack}`}>
-                    {/* Top Meta Row */}
-                    <div className={styles.backHeader}>
-                      <div className={styles.metaPills}>
-                        <span className={styles.typeBadge}>
-                          {activeProject.type}
-                        </span>
-                        <span className={styles.yearBadge}>
-                          {activeProject.year}
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        className={styles.flipBackBtn}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleFlip();
-                        }}
-                        aria-label="Flip back to project image"
-                        title="Flip back to project image"
-                      >
-                        <span className={styles.flipBackIcon}>↺</span>
-                        <span className={styles.flipBackLabel}>Flip back</span>
-                      </button>
-                    </div>
-
-                    {/* Content Body */}
-                    <div className={styles.backBody}>
-                      <div className={styles.titleGroup}>
-                        <h3 className={styles.projectTitle}>
-                          {activeProject.title}
-                        </h3>
-                        <p className={styles.projectSubtitle}>
-                          {activeProject.subtitle}
-                        </p>
-                      </div>
-
-                      <p className={styles.description}>
-                        {activeProject.desc}
-                      </p>
-
-                      {activeProject.metrics && (
-                        <div className={styles.metricsBox}>
-                          <span className={styles.metricsIcon}>⚡</span>
-                          <span className={styles.metricsText}>
-                            {activeProject.metrics}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Tech Tags */}
-                      <div className={styles.tagList}>
-                        {activeProject.tags.map((tag) => (
-                          <span key={tag} className={styles.tagPill}>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Footer Actions */}
-                    <div className={styles.backFooter}>
-                      <div className={styles.actionsRow}>
-                        <a
-                          href={activeProject.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.viewProjectBtn}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span>EXPLORE PROJECT</span>
-                          <span className={styles.btnArrow}>↗</span>
-                        </a>
-
-                        <a
-                          href={activeProject.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.githubBtn}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <span>SOURCE CODE</span>
-                          <span>⌨</span>
-                        </a>
-                      </div>
-
-                      <span className={styles.flipBackHint}>
-                        Click card to flip back
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* ── RIGHT: OptionWheel Interactive Selector Panel ── */}
-          <div className={styles.wheelColumn}>
-            <div className={styles.wheelPanel}>
-              <div className={styles.wheelHeader}>
-                <div className={styles.wheelBadge}>
-                  <span className={styles.wheelDot} />
-                  <span>SELECT PROJECT</span>
-                </div>
-                <span className={styles.wheelHint}>⇅ Scroll or drag</span>
-              </div>
-
-              {/* React Bits <OptionWheel /> */}
-              <div className={styles.wheelContainer}>
-                <OptionWheel
-                  items={projectTitles}
-                  defaultSelected={activeIdx}
-                  textColor="var(--tx-muted)"
-                  activeColor="var(--accent-cyan)"
-                  side="right"
-                  fontSize={2.8}
-                  spacing={1.6}
-                  curve={1.25}
-                  tilt={13}
-                  blur={2.25}
-                  fade={0.26}
-                  smoothing={200}
-                  inset={54}
-                  loop={false}
-                  draggable
-                  onChange={handleWheelChange}
+                <img
+                  src={activeProject.image}
+                  alt={activeProject.title}
+                  className={styles.projectImage}
+                  loading="eager"
+                  draggable="false"
                 />
+
+                <div className={styles.imageOverlay} />
+
+                {/* Corner Tag */}
+                <div className={styles.imageCornerTag}>
+                  <span className={styles.cornerDot} />
+                  <span className={styles.cornerIndex}>0{activeIdx + 1}</span>
+                  <span className={styles.cornerTitle}>{activeProject.title}</span>
+                </div>
+
+                {/* Hover Visit Prompt */}
+                <div className={styles.visitPrompt}>
+                  <span>VISIT PROJECT</span>
+                  <span className={styles.visitArrow}>↗</span>
+                </div>
+              </a>
+
+              {/* Project Details Panel (Shown on the Right Side of Image) */}
+              <div className={styles.detailsPanel}>
+                {/* Header Row: Meta Badges */}
+                <div className={styles.detailsHeader}>
+                  <div className={styles.metaPills}>
+                    <span className={styles.typeBadge}>
+                      {activeProject.type}
+                    </span>
+                    <span className={styles.yearBadge}>
+                      {activeProject.year}
+                    </span>
+                  </div>
+                  <span className={styles.projectIndexBadge}>
+                    0{activeIdx + 1} / 0{projects.length}
+                  </span>
+                </div>
+
+                {/* Title & Subtitle */}
+                <div className={styles.titleGroup}>
+                  <h3 className={styles.projectTitle}>
+                    {activeProject.title}
+                  </h3>
+                  <p className={styles.projectSubtitle}>
+                    {activeProject.subtitle}
+                  </p>
+                </div>
+
+                {/* Description */}
+                <p className={styles.description}>
+                  {activeProject.desc}
+                </p>
+
+                {/* Tech Tags */}
+                <div className={styles.tagList}>
+                  {activeProject.tags.map((tag) => (
+                    <span key={tag} className={styles.tagPill}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Actions Row */}
+                <div className={styles.actionsRow}>
+                  <a
+                    href={activeProject.live || activeProject.demo || activeProject.link || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.viewProjectBtn}
+                  >
+                    <span>EXPLORE PROJECT</span>
+                    <span className={styles.btnArrow}>↗</span>
+                  </a>
+
+                  <a
+                    href={activeProject.github || activeProject.link || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.githubBtn}
+                  >
+                    <span>SOURCE CODE</span>
+                    <span>⌨</span>
+                  </a>
+                </div>
               </div>
-
-              {/* Wheel Controls Footer */}
-              <div className={styles.wheelFooter}>
-                <button
-                  type="button"
-                  className={styles.stepBtn}
-                  onClick={handlePrev}
-                  disabled={activeIdx === 0}
-                  aria-label="Previous project"
-                >
-                  ↑ PREV
-                </button>
-
-                <span className={styles.projectPillCount}>
-                  0{activeIdx + 1} / 0{projects.length}
-                </span>
-
-                <button
-                  type="button"
-                  className={styles.stepBtn}
-                  onClick={handleNext}
-                  disabled={activeIdx === projects.length - 1}
-                  aria-label="Next project"
-                >
-                  NEXT ↓
-                </button>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>

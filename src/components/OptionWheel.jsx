@@ -121,7 +121,7 @@ const OptionWheel = ({
       if (R > 0) {
         const ang = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, d * tiltRad));
         y = R * Math.sin(ang);
-        x = -mirror * R * (1 - Math.cos(ang)) * cfg.curve;
+        x = mirror * R * (1 - Math.cos(ang)) * cfg.curve;
         rot = (mirror * ang * 180) / Math.PI;
       }
       el.style.transform = `translate(${x.toFixed(2)}px, calc(${y.toFixed(2)}px - 50%)) rotate(${rot.toFixed(3)}deg)`;
@@ -185,6 +185,10 @@ const OptionWheel = ({
     if (!el) return;
     const onWheel = e => {
       e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
       const cfg = cfgRef.current;
       const delta = e.deltaMode === 1 ? e.deltaY * 24 : e.deltaY;
       // Cap each event at one step so notchy mouse wheels move exactly one
@@ -284,6 +288,7 @@ const OptionWheel = ({
       role="listbox"
       tabIndex={0}
       aria-label="Option wheel"
+      data-lenis-prevent="true"
       className={`option-wheel${side === 'right' ? ' option-wheel--right' : ''}${
         isDragging ? ' option-wheel--dragging' : ''
       }${className ? ` ${className}` : ''}`}

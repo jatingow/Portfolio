@@ -15,7 +15,6 @@ export default function Experience() {
           className="section-header-eyebrow"
         >
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
             <span>EXPERIENCE</span>
           </div>
           <span className={styles.counterText}>0{experience.length} ENTRIES</span>

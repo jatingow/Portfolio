@@ -15,7 +15,6 @@ export default function Certifications() {
           className="section-header-eyebrow"
         >
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
             <span>CREDENTIALS</span>
           </div>
         </motion.div>

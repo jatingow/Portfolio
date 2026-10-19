@@ -24,7 +24,6 @@ export default function Contact() {
           className="section-header-eyebrow"
         >
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
             <span>GET IN TOUCH</span>
           </div>
         </motion.div>

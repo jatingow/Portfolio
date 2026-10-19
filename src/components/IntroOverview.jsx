@@ -22,7 +22,6 @@ export default function IntroOverview() {
           className="section-header-eyebrow"
         >
           <div className="section-tag">
-            <span className="section-asterisk">✱</span>
             <span>01 / OVERVIEW & STATEMENT</span>
           </div>
         </motion.div>

@@ -43,7 +43,6 @@ export default function About() {
           className="section-header-eyebrow"
         >
           <div className={`section-tag ${styles.headingTag}`}>
-            <span className="section-asterisk">✱</span>
             <span className={styles.headingText}>About Me</span>
           </div>
         </motion.div>

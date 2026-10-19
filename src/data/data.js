@@ -4,7 +4,7 @@ export const personalInfo = {
   role: "Creative Engineer & CS Student",
   location: "Delhi, India",
   status: "Available for roles & freelance",
-  bioLead: "Hey everyone, I'm Jatin Kumar. A 3rd year CS student. I have been learning how to program for about 3 years now.",
+  bioLead: "Hey! I'm Jatin Kumar. A 3rd year CS student. I have been learning how to program for about 3 years now.",
   bioDetails: [
     "I focus on crafting fast, modern web applications and scalable full-stack software, working primarily with React, Next.js, JavaScript, and backend systems.",
     "Driven by clean architecture, intuitive micro-interactions, and open-source collaboration. Always keen to explore emerging tech and build products that solve real problems."
@@ -87,7 +87,8 @@ export const projects = [
       },
     ],
     tags: ["Flask", "JavaScript", "Google Gemini AI", "TMDB API", "Modern CSS"],
-    link: "https://github.com/jatingow/Movie-Recommender",
+    github: "https://github.com/jatingow/Movie-Recommender",
+    live: "https://movie-recommender-16x0.onrender.com/",
     metrics: "Sub-200ms Search · AI Sentiment Analysis · Responsive UI",
   },
   {
@@ -95,7 +96,7 @@ export const projects = [
     title: "Stitch",
     subtitle: "High-Speed Private PDF Document Builder",
     type: "SaaS Web Application",
-    year: "2024",
+    year: "2025",
     desc: "A client-side image-to-PDF utility built with Next.js. Engineered with 100% privacy in mind — zero server uploads. Users can drag, drop, reorder, crop, and compile multi-image collections into perfectly formatted A4 PDFs instantly in the browser.",
     image: "/projects/stitch.jpg",
     images: [
@@ -107,8 +108,30 @@ export const projects = [
       },
     ],
     tags: ["Next.js", "React", "jsPDF", "Canvas API", "Zero-Tracking"],
-    link: "https://github.com/jatingow/Stitch",
+    github: "https://github.com/jatingow/Stitch",
+    live: "https://stitch-psi-eight.vercel.app/",
     metrics: "100% Client-Side · Zero Telemetry · Instant Export",
+  },
+  {
+    id: "03",
+    title: "To-Do List",
+    subtitle: "A Task Manager",
+    type: "Frontend Web App",
+    year: "2024",
+    desc: "A bold, retro neo-brutalist productivity application engineered for rapid daily goal tracking. Features interactive progress calculation, categorized task filters (All, Active, Done), completion toggles, and zero-telemetry client-side persistence powered by LocalStorage.",
+    image: "/projects/To-Do List.png",
+    images: [
+      {
+        src: "/projects/To-Do List.png",
+        title: "Get Sh*t Done Workspace",
+        tag: "Neo-Brutalism UI",
+        desc: "High-contrast task manager with real-time completion tracking and LocalStorage persistence",
+      },
+    ],
+    tags: ["JavaScript", "HTML5", "Neo-Brutalism", "LocalStorage", "CSS3"],
+    github: "https://github.com/jatingow/To-Do-List",
+    live: "https://to-do-app-psi-two-52.vercel.app/",
+    metrics: "100% Client-Side · LocalStorage Sync · Zero Telemetry",
   },
 ];
 
