@@ -7,7 +7,7 @@ import styles from "./Hero.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
+export default function Hero({ theme, toggleTheme, onToggleSidebar, onOpenCommandPalette }) {
   const { scrollTo } = useSmoothScroll();
   const heroRef = useRef(null);
   const titleWrapperRef = useRef(null);
@@ -124,6 +124,17 @@ export default function Hero({ theme, toggleTheme, onToggleSidebar }) {
           </a>
 
           <div className={styles.heroTopControls}>
+            <button
+              className={styles.commandPaletteBtn}
+              onClick={onOpenCommandPalette}
+              aria-label="Open Command Palette"
+              title="Command Palette (⌘K / Ctrl+K)"
+              type="button"
+            >
+              <span className={styles.cmdIcon} aria-hidden="true">⌘</span>
+              <span className={styles.cmdText}>⌘K Search & AI</span>
+            </button>
+
             <button
               className={styles.themeToggleBtn}
               onClick={toggleTheme}

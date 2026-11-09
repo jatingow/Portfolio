@@ -169,7 +169,7 @@ export const marqueeItems = [
 ];
 
 export const contactLinks = [
-  { icon: "✉", label: "Email", handle: "jatin@email.com", href: "mailto:jatin@email.com" },
+  { icon: "✉", label: "Email", handle: "jatinofficial1305@gmail.com", href: "mailto:jatinofficial1305@gmail.com" },
   { icon: "⌨", label: "GitHub", handle: "github.com/jatingow", href: "https://github.com/jatingow" },
   { icon: "💼", label: "LinkedIn", handle: "linkedin.com/in/jatin", href: "https://linkedin.com/" },
   { icon: "𝕏", label: "Twitter / X", handle: "@jatingow", href: "https://twitter.com/" },

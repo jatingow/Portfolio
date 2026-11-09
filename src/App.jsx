@@ -16,6 +16,9 @@ import Certifications     from "./components/Certifications";
 import Contact            from "./components/Contact";
 import Footer             from "./components/Footer";
 import LoadingScreen      from "./components/LoadingScreen";
+import CommandPalette     from "./components/CommandPalette";
+import LiveDemoModal      from "./components/LiveDemoModal";
+import ResumeModal        from "./components/ResumeModal";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +26,27 @@ export default function App() {
   const [theme, setTheme] = useState("dark");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Modals & Command Palette States
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [liveDemoProject, setLiveDemoProject] = useState(null);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+
   // Persist theme to <html data-theme>
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  // Global Keyboard Shortcut: ⌘K or Ctrl+K to toggle Command Palette
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const toggleTheme = () =>
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
@@ -64,6 +84,7 @@ export default function App() {
         toggleTheme={toggleTheme}
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
       <main className={isFocusing ? "hero-focus-in" : "hero-defocused"}>
@@ -72,10 +93,11 @@ export default function App() {
           theme={theme}
           toggleTheme={toggleTheme}
           onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
         />
         <Marquee />
         <About />
-        <Projects />
+        <Projects onOpenLiveDemo={(project) => setLiveDemoProject(project)} />
         <Stack />
         <Experience />
         <Certifications />
@@ -83,6 +105,29 @@ export default function App() {
       </main>
 
       <Footer />
+
+      {/* ⌘K Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        onOpenLiveDemo={(project) => setLiveDemoProject(project)}
+        onOpenResume={() => setIsResumeOpen(true)}
+      />
+
+      {/* Live Demo Device-Frame Modal */}
+      <LiveDemoModal
+        isOpen={!!liveDemoProject}
+        project={liveDemoProject}
+        onClose={() => setLiveDemoProject(null)}
+      />
+
+      {/* Resume Modal */}
+      <ResumeModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+      />
     </SmoothScrollProvider>
   );
 }

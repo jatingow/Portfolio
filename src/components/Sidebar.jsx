@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { num: "04", label: "TIMELINE", href: "#experience" },
 ];
 
-export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
+export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen, onOpenCommandPalette }) {
   const { scrollTo } = useSmoothScroll();
   const [isHovered, setIsHovered] = useState(false);
   const sidebarRef = useRef(null);
@@ -110,6 +110,20 @@ export default function Sidebar({ theme, toggleTheme, isOpen, setIsOpen }) {
 
           {/* Action & Controls */}
           <div className={styles.panelFooter}>
+            {/* Command Palette Trigger CTA */}
+            <button
+              className={styles.paletteTriggerBtn}
+              onClick={() => {
+                setIsOpen(false);
+                setIsHovered(false);
+                if (onOpenCommandPalette) onOpenCommandPalette();
+              }}
+              type="button"
+            >
+              <span>⌘K COMMANDS & AI</span>
+              <span className={styles.contactArrow} aria-hidden="true">↗</span>
+            </button>
+
             {/* Contact Pill CTA */}
             <a
               href="#contact"

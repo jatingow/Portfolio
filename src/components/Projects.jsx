@@ -1,20 +1,79 @@
-import { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useMemo } from "react";
+import { motion } from "framer-motion";
 import { projects } from "../data/data";
-import OptionWheel from "./OptionWheel";
+import AccordionGallery from "./AccordionGallery";
 import styles from "./Projects.module.css";
 
-export default function Projects() {
-  const [activeIdx, setActiveIdx] = useState(0);
+export default function Projects({ onOpenLiveDemo }) {
+  // Map portfolio projects into 5 rich showcase items for the accordion gallery
+  const items = useMemo(() => {
+    const watchit = projects.find((p) => p.title === "WatchIt") || projects[0];
+    const stitch = projects.find((p) => p.title === "Stitch") || projects[1];
+    const todo = projects.find((p) => p.title === "To-Do List") || projects[2];
 
-  const activeProject = projects[activeIdx] || projects[0];
-  const projectTitles = useMemo(() => projects.map((p) => p.title), []);
-
-  const handleWheelChange = (index) => {
-    if (index !== activeIdx && index >= 0 && index < projects.length) {
-      setActiveIdx(index);
-    }
-  };
+    return [
+      {
+        image: "/projects/watchit-1.png",
+        label: "WatchIt",
+        subtitle: "AI-Powered Movie Discovery Engine",
+        type: watchit.type,
+        desc: watchit.desc,
+        tags: watchit.tags,
+        link: watchit.live,
+        live: watchit.live,
+        github: watchit.github,
+        project: watchit,
+      },
+      {
+        image: "/projects/stitch.jpg",
+        label: "Stitch",
+        subtitle: "High-Speed Private PDF Builder",
+        type: stitch.type,
+        desc: stitch.desc,
+        tags: stitch.tags,
+        link: stitch.live,
+        live: stitch.live,
+        github: stitch.github,
+        project: stitch,
+      },
+      {
+        image: "/projects/watchit-2.png",
+        label: "AI Vibe Check",
+        subtitle: "Gemini Semantic Film Discovery",
+        type: "Gemini AI Engine",
+        desc: "Natural-language semantic movie match engine powered by Google Gemini AI and live TMDB streaming data. Explores films based on nuanced emotional vibes and mood.",
+        tags: ["Google Gemini AI", "Flask", "Python", "TMDB API", "NLP"],
+        link: watchit.live,
+        live: watchit.live,
+        github: watchit.github,
+        project: watchit,
+      },
+      {
+        image: "/projects/To-Do List.png",
+        label: "To-Do List",
+        subtitle: "Neo-Brutalist Task Manager",
+        type: todo.type,
+        desc: todo.desc,
+        tags: todo.tags,
+        link: todo.live,
+        live: todo.live,
+        github: todo.github,
+        project: todo,
+      },
+      {
+        image: "/projects/watchit-3.png",
+        label: "Watchlist Sync",
+        subtitle: "Personal Movie Queue & Ratings",
+        type: "State-Synced UI",
+        desc: "Fast client-side watchlist tracking with instant bookmarking, state sync, rating comparisons, and responsive cinematic preview cards.",
+        tags: ["JavaScript", "LocalStorage", "REST APIs", "Modern CSS"],
+        link: watchit.live,
+        live: watchit.live,
+        github: watchit.github,
+        project: watchit,
+      },
+    ];
+  }, []);
 
   return (
     <section className={styles.section} id="projects">
@@ -31,146 +90,22 @@ export default function Projects() {
             <span>PROJECTS</span>
           </div>
           <span className={styles.countIndicator}>
-            (0{activeIdx + 1} / 0{projects.length} · SCROLL WHEEL TO EXPLORE)
+            (0{projects.length} PROJECTS · EXPANDABLE ACCORDION GALLERY)
           </span>
         </motion.div>
       </div>
 
-      {/* Main Showcase Layout: Wheel on left, Project Showcase on right */}
-      <div className={styles.showcaseWrapper}>
-        {/* ── LEFT: OptionWheel at the very left end of screen ── */}
-        <div className={styles.wheelLeftSection} data-lenis-prevent="true">
-          <OptionWheel
-            items={projectTitles}
-            defaultSelected={activeIdx}
-            textColor="#71717a"
-            activeColor="#ffffff"
-            side="left"
-            fontSize={3.4}
-            spacing={1.6}
-            curve={1.25}
-            tilt={13}
-            blur={2.25}
-            fade={0.26}
-            smoothing={200}
-            inset={0}
-            loop={false}
-            draggable
-            onChange={handleWheelChange}
-          />
-        </div>
-
-        {/* ── RIGHT: Project Showcase (Clickable Image on Left, Details on Right) ── */}
-        <div className={styles.projectMainSection}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeProject.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className={styles.projectCard}
-            >
-              {/* Clickable Image (Redirects to project link anywhere on the image) */}
-              <a
-                href={activeProject.live || activeProject.link || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.imageContainer}
-                aria-label={`Visit live project for ${activeProject.title}`}
-                title={`Visit live project: ${activeProject.title}`}
-              >
-                <img
-                  src={activeProject.image}
-                  alt={activeProject.title}
-                  className={styles.projectImage}
-                  loading="eager"
-                  draggable="false"
-                />
-
-                <div className={styles.imageOverlay} />
-
-                {/* Corner Tag */}
-                <div className={styles.imageCornerTag}>
-                  <span className={styles.cornerDot} />
-                  <span className={styles.cornerIndex}>0{activeIdx + 1}</span>
-                  <span className={styles.cornerTitle}>{activeProject.title}</span>
-                </div>
-
-                {/* Hover Visit Prompt */}
-                <div className={styles.visitPrompt}>
-                  <span>VISIT PROJECT</span>
-                  <span className={styles.visitArrow}>↗</span>
-                </div>
-              </a>
-
-              {/* Project Details Panel (Shown on the Right Side of Image) */}
-              <div className={styles.detailsPanel}>
-                {/* Header Row: Meta Badges */}
-                <div className={styles.detailsHeader}>
-                  <div className={styles.metaPills}>
-                    <span className={styles.typeBadge}>
-                      {activeProject.type}
-                    </span>
-                    <span className={styles.yearBadge}>
-                      {activeProject.year}
-                    </span>
-                  </div>
-                  <span className={styles.projectIndexBadge}>
-                    0{activeIdx + 1} / 0{projects.length}
-                  </span>
-                </div>
-
-                {/* Title & Subtitle */}
-                <div className={styles.titleGroup}>
-                  <h3 className={styles.projectTitle}>
-                    {activeProject.title}
-                  </h3>
-                  <p className={styles.projectSubtitle}>
-                    {activeProject.subtitle}
-                  </p>
-                </div>
-
-                {/* Description */}
-                <p className={styles.description}>
-                  {activeProject.desc}
-                </p>
-
-                {/* Tech Tags */}
-                <div className={styles.tagList}>
-                  {activeProject.tags.map((tag) => (
-                    <span key={tag} className={styles.tagPill}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Actions Row */}
-                <div className={styles.actionsRow}>
-                  <a
-                    href={activeProject.live || activeProject.demo || activeProject.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.viewProjectBtn}
-                  >
-                    <span>EXPLORE PROJECT</span>
-                    <span className={styles.btnArrow}>↗</span>
-                  </a>
-
-                  <a
-                    href={activeProject.github || activeProject.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.githubBtn}
-                  >
-                    <span>SOURCE CODE</span>
-                    <span>⌨</span>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      {/* Accordion Gallery Showcase Container */}
+      <div className="container" style={{ marginTop: "1rem" }}>
+        <AccordionGallery
+          items={items}
+          defaultIndex={2}
+          expandRatio={0.52}
+          trigger="hover"
+          accentColor="#0392ab"
+          overlayColor="#000000"
+          onOpenLiveDemo={onOpenLiveDemo}
+        />
       </div>
     </section>
   );
